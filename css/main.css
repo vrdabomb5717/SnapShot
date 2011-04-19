@@ -1,0 +1,62 @@
+﻿p, h1, h2, h3, h4, h5 { margin: 0 0 1em 0; line-height: 1.6em;}
+
+body, input,textarea,select, .normal
+{ font-family: helvetica, "lucida grande", "Segoe UI", arial, verdana, "lucida sans unicode", tahoma, sans-serif; font-size: 14pt;  font-weight: normal;}
+
+
+body{
+	
+	background:#CCCCCC;
+	
+}
+
+a:link    {color:blue;}
+a:visited {color:blue;}
+
+div.header{
+	
+	color:blue; 
+	font-weight:bold;
+	text-align:center;
+	font-size:xx-large;
+	font-family:'Annie Use Your Telescope',Arial , Helvetica, sans-serif;
+}
+
+div.input{
+	
+	font-size:18pt;
+	text-align:center;
+
+}
+
+div.image{
+	
+	text-align:center;
+}
+
+input.submitaURL{
+	width:680px;
+	background:grey;
+	border:2px grey inset;
+	color:black;
+	font-size:17pt;
+}
+
+p.error
+{
+    color: red;
+}
+
+p.success
+{
+    color: green;
+}
+
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border:1px solid black;
+}
