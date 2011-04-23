@@ -52,18 +52,3 @@ while($input = <STDIN>){ # get getting user input
 }
 
 
-#OLD V1 Code
-#$server_socket->send("HELLO MSG FROM CLIENT");
-#my $temp=0;
-#while(0 && $temp++<2){ ### continous run 
-#	
-#	while($msg = <STDIN> ){ # take user input
-#		print <STDIN>;
-#		if($msg ne ''){ # if user input is not emtpy
-#			
-#			$server_socket->send("HELLO MSG FROM CLIENT");
-#			
-#		}
-#
-#	}
-#}
