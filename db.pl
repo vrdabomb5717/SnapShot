@@ -8,6 +8,7 @@
 use strict;
 use DBI;
 
+
 print "inserting into db ...\n";
 #mkdir "./files/$u";
 	
@@ -34,12 +35,14 @@ print "inserting into db ...\n";
 
 	
 sub createdb{
-	`sqlite3 test.db "CREATE TABLE url ( id INTEGER PRIMARY KEY,
+	`sqlite3 test2.db "CREATE TABLE url ( id INTEGER PRIMARY KEY,
                         url TEXT NOT NULL COLLATE NOCASE,
                         category TEXT NOT NULL,
                         imagepath TEXT NOT NULL COLLATE NOCASE,
                         views INTEGER NOT NULL,
-                        votes INTEGER NOT NULL );"`;
+                        votes INTEGER NOT NULL,
+                        comments TEXT NOT NULL COLLATE NOCASE,
+                        UNIQUE (url) );"`;
 exit;     
 }	
              
