@@ -21,15 +21,109 @@ void testsql();
 void addurl();
 void viewall();
 void addcomment();
+void addIP();
+void countIP();
+void incrementSnap();
+void incrementURL();
+void countURLviews();
+void countSnaps();
 
 int main(int argc, char** args) {
 
-	addcomment();
-	viewall();
+	//countSnaps();
+	//countURLviews();
+
+	//incrementSnap();
+	//incrementURL();
+
+	//countIP();
+	//addIP();
+	//addcomment();
+	//viewall();
 
 
 }
 
+
+void incrementSnap(){ // increment snap count
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Incrementing URL Snap count in DB\n";
+
+	db.incrSnaps();
+
+}
+
+
+void incrementURL(){ // increment url views
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Incrementing URL view count in DB\n";
+
+	db.incrURLviews();
+
+}
+
+void countSnaps(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Geting Count of URL Snaps taken from DB\n";
+
+	int count = db.countSnaps();
+	cout << "Total URL Snaps  = " << count <<endl;
+}
+
+void countURLviews(){ // count total number of url viewed - can think of as being number of pages viewed / served.
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Geting Count of URL views from DB\n";
+
+	int count = db.countURLviews();
+	cout << "Total URL views  = " << count <<endl;
+
+
+
+}
+
+void countIP(){
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Geting IP Count from DB\n";
+
+	int count = db.countIP();
+
+	cout << "The count is " << count << endl;
+
+
+}
+
+
+void addIP(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Adding IP to statistic tablein DB \n";
+
+	string ip = "12.12.12.12";
+	db.addIP(ip);
+
+}
 void addcomment(){
 
 	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");

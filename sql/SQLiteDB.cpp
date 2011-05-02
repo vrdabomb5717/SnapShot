@@ -77,6 +77,14 @@ int SQLiteDB::insert(string sql){
 
 
 	if(retmsg != SQLITE_OK){
+		// check if insertion failed due to IP existing already - This is a special case for maintaining uniquness of ips in visitor table
+		string uniq = "column ip is not unique";
+		string ret(retmsg); // return string error msg
+		if(uniq.compare(ret) == 0){
+			cout << "IP address exists. Insert skipped.\n";
+			return 0;
+		}
+
 		cout << "Error Msg: "<<retmsg <<endl;
 		return -1;
 	} else {
@@ -92,6 +100,188 @@ int SQLiteDB::remove(string sql){
 	return 0;
 }
 
+
+
+int SQLiteDB::countSnaps(){
+	string sql = "SELECT * FROM stats WHERE id=1"; // ID is always one, since we have data stored only in 1st row
+
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	retv =  sqlite3_step(stmt);
+
+	const char *val = (const char*) sqlite3_column_text(stmt,1); // index of value of 1 gives us 'snapcount'. index value of 1 would give 'urlviews'
+	const char *colname = sqlite3_column_name(stmt,1); // index of value of 1 gives us 'snapcount'. index value of 1 would give 'urlviews'
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+	// Convert string to integer //
+	string value(val); // convert to a c++ string
+	stringstream s(value); /// make stringstream from using the "value" string
+	int i;
+	s >> i; // convert to integer
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return i; // return the value
+}
+
+int SQLiteDB::addIP(string ip){
+
+	string sql = "INSERT INTO visitors VALUES(NULL, '" + ip + "')";
+
+	cout << "SQL : " << sql <<endl; // debugging only
+
+	int retv =  insert(sql);
+	if (retv != 0) {
+		return -1; // some error occured.
+	} else {
+		return 0; // no errors
+	}
+}
+
+
+int SQLiteDB::countURLviews(){
+
+	string sql = "SELECT * FROM stats WHERE id=1"; // ID is always one since we have data stored in only 1st row
+
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	retv =  sqlite3_step(stmt);
+
+	const char *val = (const char*) sqlite3_column_text(stmt,2); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
+	const char *colname = sqlite3_column_name(stmt,2); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+	// Convert string to integer //
+	string value(val); // convert to a c++ string
+	stringstream s(value); /// make stringstream from using the "value" string
+	int i;
+	s >> i; // convert to integer
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return i; // return the value
+
+}
+
+int SQLiteDB::countRows(string sql){ // counts number of records  in given table as specified in the sql query
+
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	/**
+	 * We are doing a basic count of the rows in visitors table
+	 * SQL returns this as the first row of the first column in a 1x1 table, so use index value of 0
+	 */
+	retv =  sqlite3_step(stmt);
+	const char *val = (const char*) sqlite3_column_text(stmt,0);  // the count value
+	const char *colname = sqlite3_column_name(stmt,0); // name of column with count value.
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+	// Convert string to integer //
+	string value(val); // convert to a c++ string
+	stringstream s(value); /// make stringstream from using the "value" string
+	int i;
+	s >> i; // convert to integer
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return i; // return the value
+}
+
+int SQLiteDB::countIP(){ // returns number of unique IP visitors
+
+	string sql = "SELECT COUNT(*) FROM visitors";
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+
+	/**
+	 * We are doing a basic count of the rows in visitors table
+	 * SQL returns this as the first row of the first column in a 1x1 table, so use index value of 0
+	 */
+	retv =  sqlite3_step(stmt);
+	const char *val = (const char*) sqlite3_column_text(stmt,0);  // the count value
+	const char *colname = sqlite3_column_name(stmt,0); // name of column with count value.
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+	// Convert string to integer //
+	string value(val); // convert to a c++ string
+	stringstream s(value); /// make stringstream from using the "value" string
+	int i;
+	s >> i; // convert to integer
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return i; // return the value
+
+}
+
+int SQLiteDB::incrSnaps(){
+
+	string url_id = "1"; // ID is always constant at 1 because, we only have 1 row in stats table.
+
+	string sql = "UPDATE stats SET snapcount = snapcount+1 WHERE id=" + url_id ;
+
+	int retv =  update(sql);
+	if (retv != 0) {
+		return -1; // some error occured.
+	} else {
+		return 0; // no errors
+	}
+
+}
+
+int SQLiteDB::incrURLviews(){
+
+	string url_id = "1"; // ID is always constant at 1 because, we only have 1 row in stats table.
+
+	string sql = "UPDATE stats SET urlviews = urlviews+1 WHERE id=" + url_id ;
+
+	int retv =  update(sql);
+	if (retv != 0) {
+		return -1; // some error occured.
+	} else {
+		return 0; // no errors
+	}
+}
 
 int SQLiteDB::addcomment(int id, string comment){
 

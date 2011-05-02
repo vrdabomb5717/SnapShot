@@ -10,6 +10,8 @@ use DBI;
 
 
 print "inserting into db ...\n";
+#createdb2();
+#initdb();
 #mkdir "./files/$u";
 	
 	
@@ -32,10 +34,36 @@ print "inserting into db ...\n";
 	my $sth = $dbh->prepare("$insert");
 	$sth->execute($url, $category, $imagepath, $views, $votes);
 
+sub createdb2{ # make a stat db, and create the 0th id. 
+	`sqlite3 test2.db "CREATE TABLE visitors ( id INTEGER PRIMARY KEY,
+                        ip TEXT NOT NULL COLLATE NOCASE,
+                        UNIQUE (ip) );"`;
+
+`sqlite3 test2.db "CREATE TABLE stats ( id INTEGER PRIMARY KEY,
+                        snapcount INTEGER NOT NULL COLLATE NOCASE,
+                        urlviews INTEGER NOT NULL COLLATE NOCASE);"`;
+	
+exit;  
+}
+
+
+sub initdb{ # initialize the stats db. 
+	
+# insert the 0th id. 
+my $dbfile = "test2.db"; 
+my $dbh = DBI->connect( "dbi:SQLite:$dbfile", "", "",
+	{RaiseError => 1, AutoCommit => 1}) || die "connect to DB", "$dbfile - $DBI::errstr";
+
+my $insert = "INSERT OR REPLACE INTO stats (snapcount, urlviews) VALUES (:1, :2)";
+	my $sth = $dbh->prepare("$insert");
+	$sth->execute(0,0);
+	exit; 	
+}
 
 	
 sub createdb{
-	`sqlite3 test2.db "CREATE TABLE url ( id INTEGER PRIMARY KEY,
+	my $dbname = "test2.db";
+	`sqlite3 $dbname "CREATE TABLE url ( id INTEGER PRIMARY KEY,
                         url TEXT NOT NULL COLLATE NOCASE,
                         category TEXT NOT NULL,
                         imagepath TEXT NOT NULL COLLATE NOCASE,
@@ -43,6 +71,14 @@ sub createdb{
                         votes INTEGER NOT NULL,
                         comments TEXT NOT NULL COLLATE NOCASE,
                         UNIQUE (url) );"`;
+                        
+     `sqlite3 $dbname "CREATE TABLE visitors ( id INTEGER PRIMARY KEY,
+                        ip TEXT NOT NULL COLLATE NOCASE,
+                        UNIQUE (ip) );"`;
+
+`sqlite3 $dbname "CREATE TABLE stats ( id INTEGER PRIMARY KEY,
+                        snapcount INTEGER NOT NULL COLLATE NOCASE,
+                        urlviews INTEGER NOT NULL COLLATE NOCASE);"`;
 exit;     
 }	
              

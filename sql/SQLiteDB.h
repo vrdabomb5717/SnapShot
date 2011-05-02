@@ -29,6 +29,13 @@ public:
 	int votedown(int id);
 	int addurl(string url, string category, string imagepath, int votes);
 	int addcomment(int id, string comment);
+	int addIP(string ip); // updates statistics table.
+	int countIP(); // gets a counts of unique IPs.
+	int countURLviews(); // gets a count of total url views. [can think of as being number of pages viewed / served.]
+	int countSnaps(); // get a count of total snaps taken.
+	int incrURLviews(); // increments number of URL viewed
+	int incrSnaps(); // increment number of URLs snapshotted
+	int countRows(string sql); // counts number of records  in given table as specified in the sql query
 	~SQLiteDB();
 
 private:
