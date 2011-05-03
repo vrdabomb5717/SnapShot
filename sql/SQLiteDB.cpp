@@ -149,7 +149,58 @@ int SQLiteDB::addIP(string ip){
 }
 
 
-int SQLiteDB::countURLviews(){
+int SQLiteDB::getViewCount(int id ){
+
+	/// Convert id to a string
+	stringstream sstream;
+	sstream << id;
+	string url_id = sstream.str();
+
+	string sql = "SELECT * FROM url WHERE id=" + url_id; // ID will give us one row of data since it's unique.
+
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	retv =  sqlite3_step(stmt);
+
+
+	/**URL Table Schema
+	 * index value - column name
+	 * 0 - id
+	 * 1 - url
+	 * 2 - category
+	 * 3 - imagepath
+	 * 4 - views
+	 * 5 - votes
+	 * 6 - comments
+	 */
+	const char *val = (const char*) sqlite3_column_text(stmt,4); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
+	const char *colname = sqlite3_column_name(stmt,4); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
+
+	if ( retv == SQLITE_ERROR){
+		cout << "-1" << endl;
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+	// Convert string to integer //
+	string value(val); // convert to a c++ string
+	stringstream s(value); /// make stringstream from using the "value" string
+	int i;
+	s >> i; // convert to integer
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return i; // return the value
+
+}
+
+int SQLiteDB::OLD_countURLviews(){  // Old Version - Don't Use.
 
 	string sql = "SELECT * FROM stats WHERE id=1"; // ID is always one since we have data stored in only 1st row
 
@@ -269,7 +320,27 @@ int SQLiteDB::incrSnaps(){
 
 }
 
-int SQLiteDB::incrURLviews(){
+int SQLiteDB::increaseViewCount(int id){
+
+	/// Convert id to a string
+	stringstream sstream;
+	sstream << id;
+	string url_id = sstream.str();
+
+
+	string sql = "UPDATE url SET views = views+1 WHERE id=" + url_id ;
+
+	int retv =  update(sql);
+	if (retv != 0) {
+		return -1; // some error occured.
+	} else {
+		return 0; // no errors
+	}
+
+
+}
+
+int SQLiteDB::OLD_incrURLviews(){
 
 	string url_id = "1"; // ID is always constant at 1 because, we only have 1 row in stats table.
 

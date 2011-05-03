@@ -12,6 +12,7 @@
 #include<stdlib.h>
 #include <sstream>
 #include "SQLiteDB.h"
+#include <fstream> // for reading config file
 
 using namespace std;
 
@@ -28,7 +29,7 @@ int main(int argc, char* args[]) {
 	string input(args[1]); // get the url id number
 	stringstream inputStream(input);
 
-	if(input << url_id){ // if we can convert input to a url id (integer)
+	if(inputStream >> url_id){ // if we can convert input to a url id (integer)
 
 		string cf("testdb.txt"); // string with location of db configuration file
 		ifstream file(cf.c_str(), ifstream::in); // open file for reading only

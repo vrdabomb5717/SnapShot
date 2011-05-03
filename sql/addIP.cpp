@@ -14,6 +14,7 @@
 #include<stdlib.h>
 #include <sstream>
 #include "SQLiteDB.h"
+#include <fstream> // for reading config file
 
 using namespace std;
 

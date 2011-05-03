@@ -16,6 +16,9 @@
 using namespace std;
 
 /*Function declaration*/
+void OLD_incrementURL();
+void OLD_countURLviews();
+
 int voteup();
 void testsql();
 void addurl();
@@ -24,11 +27,16 @@ void addcomment();
 void addIP();
 void countIP();
 void incrementSnap();
-void incrementURL();
-void countURLviews();
 void countSnaps();
+void getViewCount();
+void increaseViewCount();
+
+
 
 int main(int argc, char** args) {
+
+	increaseViewCount();
+	//getViewCount();
 
 	//countSnaps();
 	//countURLviews();
@@ -45,6 +53,18 @@ int main(int argc, char** args) {
 }
 
 
+void increaseViewCount(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Incrementing URL View count for URL ID Specified in DB\n";
+	int id = 4;
+	db.increaseViewCount(4);
+
+}
+
 void incrementSnap(){ // increment snap count
 
 	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
@@ -57,8 +77,22 @@ void incrementSnap(){ // increment snap count
 
 }
 
+void getViewCount(){ // test for OLD method - don't use
 
-void incrementURL(){ // increment url views
+
+	int id = 4;
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Getting View Count for URL ID in DB\n";
+
+	int count = db.getViewCount(id);
+	cout << "View count is " << count << endl;
+
+}
+
+void OLD_incrementURL(){ // test for OLD method ... increment url views
 
 	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
 	cout<< "Opening DB File ... \n";
@@ -66,7 +100,7 @@ void incrementURL(){ // increment url views
 
 	cout<< "Incrementing URL view count in DB\n";
 
-	db.incrURLviews();
+	db.OLD_incrURLviews();
 
 }
 
@@ -82,7 +116,7 @@ void countSnaps(){
 	cout << "Total URL Snaps  = " << count <<endl;
 }
 
-void countURLviews(){ // count total number of url viewed - can think of as being number of pages viewed / served.
+void OLD_countURLviews(){ // test for OLD Method - count total number of url viewed - can think of as being number of pages viewed / served.
 
 	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
 	cout<< "Opening DB File ... \n";
@@ -90,7 +124,7 @@ void countURLviews(){ // count total number of url viewed - can think of as bein
 
 	cout<< "Geting Count of URL views from DB\n";
 
-	int count = db.countURLviews();
+	int count = db.OLD_countURLviews();
 	cout << "Total URL views  = " << count <<endl;
 
 

@@ -31,12 +31,27 @@ public:
 	int addcomment(int id, string comment);
 	int addIP(string ip); // updates statistics table.
 	int countIP(); // gets a counts of unique IPs.
-	int countURLviews(); // gets a count of total url views. [can think of as being number of pages viewed / served.]
+	int getViewCount(int id); // return number of view for given url id
+	int increaseViewCount(int id); // increases view count for given url id
 	int countSnaps(); // get a count of total snaps taken.
-	int incrURLviews(); // increments number of URL viewed
+
 	int incrSnaps(); // increment number of URLs snapshotted
 	int countRows(string sql); // counts number of records  in given table as specified in the sql query
+
+	int OLD_countURLviews(); // OLD version - don't use. gets a count of total url views. [can think of as being number of pages viewed / served.]
+	int OLD_incrURLviews(); // OLD version - don't use. increments number of URL viewed - OLD version. don't use
 	~SQLiteDB();
+
+	/**
+	 * TO DO:
+	 * - add a get URL id method
+	 * - update increment URL final exe program.
+	 *
+	 *
+	 * - TURN OFF PRINT MSGS IN UPDATE & other methods.
+	 */
+
+
 
 private:
 	sqlite3 * dbPtr; /* Pointer to the Open DB connection*/

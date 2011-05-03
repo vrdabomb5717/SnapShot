@@ -9,8 +9,9 @@
 
 #include <iostream>
 #include <sqlite3.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <sstream>
+#include <fstream> // for reading config file>
 #include "SQLiteDB.h"
 
 using namespace std;

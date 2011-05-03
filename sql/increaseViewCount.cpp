@@ -1,8 +1,8 @@
 /*
- * Vote up
- * This votes up the given URL-id
+ * increaseViewCount.cpp
+ * Increments the view count for the URL with specified URL-ID
  *
- *  Created on: Apr 24, 2011
+ *  Created on: May 3, 2011
  *      Author: jervis
  */
 
@@ -18,21 +18,22 @@ using namespace std;
 
 int main(int argc, char* args[]) {
 
-	if (argc != 2 ){ // Need one Argument
+	if (argc != 2 ){ // Need 1 Arguments  in this form : [string URL_ID]
 		cout << "-1" <<endl;
 		cout << "Insufficient arguments supplied" << endl;
-		cout << "Usage is voteup [url-id]" << endl;
+		cout << "Usage is increaseViewCount URL_ID" << endl;
 		return (-1);
 	}
 
-	int url_id;
-	string input(args[1]); // get the url id number
-	stringstream inputStream(input);
+	string id(args[1]); // get the URL ID given
+	stringstream inputStream(id);
+	int url_id; // store url id.
 
-	if(inputStream >> url_id){ // if we can convert input to a url id (integer)
+	if(inputStream >> url_id){ // if we can convert the url id to an integer and store in url_id
 
 		string cf("testdb.txt"); // string with location of db configuration file
 		ifstream file(cf.c_str(), ifstream::in); // open file for reading only
+
 
 		if (!file.is_open()) {
 			cout << "-1" << endl;
@@ -40,24 +41,25 @@ int main(int argc, char* args[]) {
 			return -1; // QUIT
 		}
 
+
 		string dbfile = "";
 
 		getline(file, dbfile); // read database file location from file and store in variable "dbfile"
 		file.close();  // close file stream
 		SQLiteDB db(dbfile); /// open sql database
 
-		int retv = db.voteup(url_id);
+		int retv = db.increaseViewCount(url_id);
 
 		if(retv != 0){
 			cout << "-1" << endl;
-			cout << "Some error has occured";
+			cout << "Some error has occured - the incement operation did not successfully complete";
 		} else {
-			cout << "0";
+			cout << "0" << endl;
 		}
 
-	} else { // Convert input string to a integer failed, print out error msg
+	} else { // Convert url id part of input string to an integer failed, print out error msg
 		cout << "-1" <<endl;
-		cout << "Invalid argument entered. Please enter a valid integer only" <<endl;
+		cout << "Invalid url-id argument entered. Please enter a valid integer only" <<endl;
 		return (-1);
 	}
 }
