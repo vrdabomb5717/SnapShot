@@ -1,8 +1,9 @@
 #!/usr/bin/perl
 
-# Simple Server
+# Simple Image Server
 # Waits for a client connection and forks a new 
 # new thread to handle that connection. 
+# 
 # Written by Jervis Muindi
 # 18th April  2011
 
@@ -11,7 +12,10 @@
 
 
 use strict;
-use IO::Socket::INET;
+use IO::Socket::INET; # import network socket
+use Digest::SHA qw(sha1 sha1_hex sha1_base64); # import SHA 1 hash
+
+
 $| = 1; # auto flush buffers
 
 my $port; # user defined port number
@@ -87,6 +91,29 @@ while(my $client_socket = $socket->accept()) { # Wait for and accept new incomin
 	}
 
 	### To do:  Process User Input of URLs
+	
+	my $hash; # store url hash which is what will be used to name image file.
+	my $cap_cmd; # store command to capture image file
+	my $rc; # store return code
+	my $img_name; # name of image file
+	foreach my $line(@urls){
+		
+		my @list = split(',', $line);  # Input should be in form: category,vote,URL
+		my $cat = $list[0]; #category
+		my $vote = $list[1]; #vote count. It's a 0/1
+		my $url = $list[2]; # URL path
+
+		print STDOUT "cat: $cat \n";
+		print STDOUT "vote : $vote \n"; 
+		print STDOUT "url : $url \n"; 
+	
+		$url = lc($url); # convert to lower case. 
+
+		$img_name = sha1_hex("$url") . ".png"; # hash url to get image name. 
+		$cap_cmd = "./capture.pl $url $img_name";
+		
+		$rc = system($cap_cmd); # run capture command. 	
+	}
 
 	close $client_socket;
 	exit; #don't let the child process back to accept !
