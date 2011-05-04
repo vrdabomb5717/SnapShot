@@ -13,7 +13,7 @@
 use Cwd;  # for changing current working directory
 use strict; # stop us from doing stupid things 
 
-my $IMAGE_REL_PATH = "../../images/";
+my $IMAGE_REL_PATH = "../../snaps/";
 my $WINE_REL_PATH = "wine/bin/";
 
 # Get Commandline Arguments
