@@ -14,6 +14,8 @@
 #include "SQLiteDB.h"
 #include <fstream> // for reading config file
 
+#define comment_delimeter ""
+
 using namespace std;
 
 int main(int argc, char* args[]) {
@@ -25,7 +27,7 @@ int main(int argc, char* args[]) {
 		return (-1);
 	}
 
-	int url_id;
+	int url_id; // url id to add comment to.
 	string id_string(args[1]); // get the url-id and store in id_string
 	stringstream inputStream(id_string);
 
@@ -51,28 +53,11 @@ int main(int argc, char* args[]) {
 		file.close();  // close file stream
 		SQLiteDB db(dbfile); /// open sql database
 
+		int retv = db.addcomment(url_id,comment);  // add the comment
 
-		time_t raw;
-		struct tm * timestruct; // a tm object that holds time details
-		time ( &raw); // fill in time_t "time" object with current time info
-		timestruct = localtime(&raw);  // fill time struct with current time.
-		char * ctime = asctime(timestruct); // convert tm struct to a C string with time info in human readable form
-
-		// Format Comment Properly
-		string comment_text;
-		comment_text = "Name: " + commenter;
-		comment_text +=  "\nDate: ";
-		comment_text += ctime + '\n';
-		comment_text += "Comment: " + comment + "\n";
-		comment_text += "\n" + comment_delimeter + "\n";
-
-
-		string sql = "UPDATE url SET comments = (comments || '" + comment_text + "' ) "  + "WHERE id=" + id_string ;
-
-		//cout << "SQL : " << sql <<endl; // debugging only
-
-		int retv =  update(sql);
 		if (retv != 0) {
+			cout << "-1" << endl;
+			cout << "Some error occured while trying to add the comment" << endl;
 			return -1; // some error occured.
 		} else {
 			return 0; // no errors
