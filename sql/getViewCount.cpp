@@ -3,7 +3,7 @@
  * Return the number of views count for given URL ID
  * stored in the database file.
  *  Created on: May 3, 2011
- *      Author: jervis
+ *      Author: Jervis Muindi
  */
 
 #include <iostream>

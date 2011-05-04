@@ -1,10 +1,12 @@
 /*
- * addIP.cpp
- * Adds given IP to visitors table in database
- * Note: Only if an IP doesn't not exist, is it actually
- * added to the database.
+ * getURLid.cpp
+ * Returns URL id of given url string.
  *
- *  Created on: May 1, 2011
+ * Note that the first line is not an error code specifier (i.e. 1 or 0).
+ * I just return the data from the DB. However, if an error occurs in processing
+ * request, I warn you at that time (in the end).
+
+ *  Created on: May 3, 2011
  *      Author: Jervis Muindi
  */
 
@@ -20,18 +22,18 @@ using namespace std;
 
 int main(int argc, char* args[]) {
 
-	if (argc != 2 ){ // Need 1 Arguments  in this form : [string ip]
+	if (argc != 2 ){ // Need 1 Arguments  in this form : [string url]
 		cout << "-1" <<endl;
 		cout << "Insufficient arguments supplied" << endl;
-		cout << "Usage is addIP IP_Address " << endl;
+		cout << "Usage is getURLid A_URL" << endl;
 		return (-1);
-
 	}
 
-	string ip(args[1]); // get the ip address entered.
+	string url(args[1]); // get the given category
 
 	string cf("testdb.txt"); // string with location of db configuration file
 	ifstream file(cf.c_str(), ifstream::in); // open file for reading only
+
 
 	if (!file.is_open()) {
 		cout << "-1" << endl;
@@ -39,17 +41,19 @@ int main(int argc, char* args[]) {
 		return -1; // QUIT
 	}
 
+
 	string dbfile = "";
+
 	getline(file, dbfile); // read database file location from file and store in variable "dbfile"
 	file.close();  // close file stream
 	SQLiteDB db(dbfile); /// open sql database
 
-	int retv = db.addIP(ip);
+	int retv = db.getURLid(url);  // print url string.
 
-	if(retv != 0){
-		cout << "-1" << endl;
-		cout << "Some error has occured";
-	} else {
-		cout << "0";
+	if (retv == -1) {
+		cout << "Some kind of error occured while processing the SQL query" << endl;
+		return -1;
 	}
+
+	return 0;
 }

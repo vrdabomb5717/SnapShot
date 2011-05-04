@@ -7,6 +7,17 @@
  *
  */
 
+/** URL SQLite Table Schema
+ * index value - column name
+ * 0 - id
+ * 1 - url
+ * 2 - category
+ * 3 - imagepath
+ * 4 - views
+ * 5 - votes
+ * 6 - comments
+ */
+
 
 #include <iostream>
 #include <sqlite3.h>
@@ -15,10 +26,12 @@
 #include <sstream> // for converting ints to strings and vice-versa
 #include<time.h> // for getting correct time when adding comments.
 
+#define DELIM "==========" // Delimeter to separate one record from another when outputting data from database table
+
 
 using namespace std;
 
-const string comment_delimeter("^^^a94a8fe5ccb19ba61c4c0873d391e987982fbbd3^^^"); // Comment Delimeter
+const string comment_delimeter("^^^^a94a8fe5ccb19ba61c4c0873d391e987982fbbd3^^^^"); // Comment Delimeter
 
 SQLiteDB::SQLiteDB(string db){
 	const char * dbfile = db.c_str();
@@ -85,8 +98,16 @@ int SQLiteDB::insert(string sql){
 			return 0;
 		}
 
+		// check if insertion failed due to URL already existing.
+		uniq = "column url is not unique" ;
+		if(uniq.compare(ret) == 0){
+			cout << "URL already exists. Insert skipped.\n";
+			return 0;
+		}
+
 		cout << "Error Msg: "<<retmsg <<endl;
 		return -1;
+
 	} else {
 		cout << "Insert Succeeded \n";
 		return 0;
@@ -96,7 +117,7 @@ int SQLiteDB::insert(string sql){
 
 
 int SQLiteDB::remove(string sql){
-	const char * select = sql.c_str();
+
 	return 0;
 }
 
@@ -110,13 +131,13 @@ int SQLiteDB::countSnaps(){
 
 	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
 
-	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+
 	int retv; // return value from SQL db
 
 	retv =  sqlite3_step(stmt);
 
 	const char *val = (const char*) sqlite3_column_text(stmt,1); // index of value of 1 gives us 'snapcount'. index value of 1 would give 'urlviews'
-	const char *colname = sqlite3_column_name(stmt,1); // index of value of 1 gives us 'snapcount'. index value of 1 would give 'urlviews'
+
 
 	if ( retv == SQLITE_ERROR){
 		cout << "Some kind of error has occurred" << endl;
@@ -148,6 +169,406 @@ int SQLiteDB::addIP(string ip){
 	}
 }
 
+int SQLiteDB::getURLinfo(int id){
+
+	stringstream s;
+	s << id;
+	string url_id = s.str();
+
+	string sql = "SELECT * FROM url WHERE id=" + url_id ; // should give 1 row of data as URL id is unique.
+
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	retv =  sqlite3_step(stmt); // get the one row of data ( URL id is unique)
+
+	/**URL Table Schema
+	 * index value - column name
+	 * 0 - id
+	 * 1 - url
+	 * 2 - category
+	 * 3 - imagepath
+	 * 4 - views
+	 * 5 - votes
+	 * 6 - comments
+	 */
+
+	for(int i = 0; i < cols - 1; i++) { // cols - 1 so that we skip and don't output comments.
+		const char *val = (const char*) sqlite3_column_text(stmt,i); // value in this column
+		const char *colname = sqlite3_column_name(stmt,i); // db col name
+
+
+		cout << colname << " : " << val << endl;  // print the info
+	}
+	if ( retv == SQLITE_ERROR){
+		cout << "-1" << endl;
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return 0; // return the value
+
+}
+
+int SQLiteDB::getURLid(string url) {
+
+	string sql = "SELECT * FROM url WHERE url='" + url + "' LIMIT 1"; // limit by 1 - they should only be one result since URL are unique.
+
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int retv; // return value from SQL db
+
+	retv =  sqlite3_step(stmt); // get one row of data
+
+	/**URL Table Schema
+	 * index value - column name
+	 * 0 - id
+	 * 1 - url
+	 * 2 - category
+	 * 3 - imagepath
+	 * 4 - views
+	 * 5 - votes
+	 * 6 - comments
+	 */
+	const char *val = (const char*) sqlite3_column_text(stmt,0); // 0 -id. see schema above for index value.
+
+	if ( retv == SQLITE_ERROR){
+		cout << "-1" << endl;
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+	cout << val; // print the id
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return 0; // return the value
+
+}
+
+
+int SQLiteDB::getBottomURLByVote(int n ){ // Get Bottom X URls as determined by number of votes.
+
+	stringstream s;
+	s << n;
+	string rank = s.str();
+
+	string sql = "SELECT * from url ORDER BY votes ASC LIMIT " + rank; // Order by  votes
+
+	const char * select = sql.c_str();
+
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	while ( SQLITE_ROW == (retv =  sqlite3_step(stmt))){ // get return values from DB, and compare to SQLITE_ROW - the two will match while they are still rows to be retrieved
+		// Print out the rows of data.
+		for(int i =0; i < cols-1; i++){ // cols -1 to skip the comments column
+			const char *val = (const char*) sqlite3_column_text(stmt,i);
+			const char *colname = sqlite3_column_name(stmt,i);
+
+			cout << colname << " : " << val << endl;
+		}
+
+		cout << DELIM << endl; // delimeter has 10 equal signs
+
+	}
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+
+	}
+
+	sqlite3_finalize(stmt); // destory statement object to prevent memory leaks.
+	return 0;
+
+}
+
+
+
+int SQLiteDB::getBottomURL(int n ){ // Get Bottom X URls as determined by number of views.
+
+	stringstream s;
+	s << n;
+	string rank = s.str();
+
+
+	string sql = "SELECT * from url ORDER BY views ASC, votes ASC LIMIT " + rank; // Order by  views and THEN votes. The ASC is needed twice.
+
+	const char * select = sql.c_str();
+
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	while ( SQLITE_ROW == (retv =  sqlite3_step(stmt))){ // get return values from DB, and compare to SQLITE_ROW - the two will match while they are still rows to be retrieved
+		// Print out the rows of data.
+		for(int i =0; i < cols-1; i++){ // cols -1 to skip the comments column
+			const char *val = (const char*) sqlite3_column_text(stmt,i);
+			const char *colname = sqlite3_column_name(stmt,i);
+
+			cout << colname << " : " << val << endl;
+		}
+
+		cout << DELIM << endl; // delimeter has 10 equal signs
+
+	}
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+
+	}
+
+	sqlite3_finalize(stmt); // destory statement object to prevent memory leaks.
+	return 0;
+
+}
+
+
+/**
+ * Return the Top X of URLs in the DB.
+ * Popularity / Topness of a URL is decided by the number of
+ * votes that it has received.
+ */
+
+int SQLiteDB::getTopURLByVote(int n){
+
+	stringstream s;
+	s << n;
+	string rank = s.str();
+
+	// SELECT * from url ORDER BY views DESC LIMIT N
+	string sql = "SELECT * from url ORDER BY votes DESC LIMIT " + rank; // Order by  views and THEN votes. The DESC is needed twice.
+
+	const char * select = sql.c_str();
+
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	while ( SQLITE_ROW == (retv =  sqlite3_step(stmt))){ // get return values from DB, and compare to SQLITE_ROW - the two will match while they are still rows to be retrieved
+		// Print out the rows of data.
+		for(int i =0; i < cols-1; i++){ // cols -1 to skip the comments column
+			const char *val = (const char*) sqlite3_column_text(stmt,i);
+			const char *colname = sqlite3_column_name(stmt,i);
+
+			cout << colname << " : " << val << endl;
+		}
+
+		cout << DELIM << endl; // delimeter has 10 equal signs
+
+	}
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+
+	}
+
+	sqlite3_finalize(stmt); // destory statement object to prevent memory leaks.
+	return 0;
+
+}
+
+
+
+
+
+/**
+ * Return the Top X of URLs in the DB.
+ * Popularity / Topness of a URL is decided by the number of
+ * views that it has received. (votes also play a minor part)
+ */
+
+int SQLiteDB::getTopURL(int n){
+
+	stringstream s;
+	s << n;
+	string rank = s.str();
+
+	// SELECT * from url ORDER BY views DESC LIMIT N
+	string sql = "SELECT * from url ORDER BY views DESC, votes DESC LIMIT " + rank; // Order by  views and THEN votes. The DESC is needed twice.
+
+	const char * select = sql.c_str();
+
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	while ( SQLITE_ROW == (retv =  sqlite3_step(stmt))){ // get return values from DB, and compare to SQLITE_ROW - the two will match while they are still rows to be retrieved
+		// Print out the rows of data.
+		for(int i =0; i < cols-1; i++){ // cols -1 to skip the comments column
+			const char *val = (const char*) sqlite3_column_text(stmt,i);
+			const char *colname = sqlite3_column_name(stmt,i);
+
+			cout << colname << " : " << val << endl;
+		}
+
+		cout << DELIM << endl; // delimeter has 10 equal signs
+
+	}
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+
+	}
+
+	sqlite3_finalize(stmt); // destory statement object to prevent memory leaks.
+	return 0;
+
+}
+
+int SQLiteDB::getURLByCat(string category){
+
+	string sql = "SELECT * from url WHERE category='" + category + "'"; // Select ALL SQL Query
+
+	const char * select = sql.c_str();
+
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	while ( SQLITE_ROW == (retv =  sqlite3_step(stmt))){ // get return values from DB, and compare to SQLITE_ROW - the two will match while they are still rows to be retrieved
+		// Print out the rows of data.
+		for(int i =0; i < cols-1; i++){ // cols -1 to skip the comments column
+			const char *val = (const char*) sqlite3_column_text(stmt,i);
+			const char *colname = sqlite3_column_name(stmt,i);
+
+			cout << colname << " : " << val << endl;
+		}
+
+		cout << DELIM << endl; // delimeter has 10 equal signs
+
+	}
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+
+	}
+
+	sqlite3_finalize(stmt); // destory statement object to prevent memory leaks.
+	return 0;
+
+
+}
+
+int SQLiteDB::getRandURL(int n){
+
+	stringstream s;
+	s << n;
+	string rank = s.str();
+
+	// SELECT * from url ORDER BY views DESC LIMIT N
+	string sql = "SELECT * from url ORDER BY RANDOM() LIMIT " + rank; // Order by  views and THEN votes. The DESC is needed twice.
+
+	const char * select = sql.c_str();
+
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	while ( SQLITE_ROW == (retv =  sqlite3_step(stmt))){ // get return values from DB, and compare to SQLITE_ROW - the two will match while they are still rows to be retrieved
+		// Print out the rows of data.
+		for(int i =0; i < cols-1; i++){ // cols -1 to skip the comments column
+			const char *val = (const char*) sqlite3_column_text(stmt,i);
+			const char *colname = sqlite3_column_name(stmt,i);
+
+			cout << colname << " : " << val << endl;
+		}
+
+		cout << DELIM << endl; // delimeter has 10 equal signs
+
+	}
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+
+	}
+
+	sqlite3_finalize(stmt); // destory statement object to prevent memory leaks.
+	return 0;
+
+}
+
+int SQLiteDB::getcomment(int id ){
+
+	/// Convert id to a string
+	stringstream sstream;
+	sstream << id;
+	string url_id = sstream.str();
+
+	string sql = "SELECT * FROM url WHERE id=" + url_id; // ID will give us one row of data since it's unique.
+
+	const char * select = sql.c_str();
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int retv; // return value from SQL db
+
+	retv =  sqlite3_step(stmt); // get one row of data
+
+	/**URL Table Schema
+	 * index value - column name
+	 * 0 - id
+	 * 1 - url
+	 * 2 - category
+	 * 3 - imagepath
+	 * 4 - views
+	 * 5 - votes
+	 * 6 - comments
+	 */
+	const char *val = (const char*) sqlite3_column_text(stmt,6); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
+
+	if ( retv == SQLITE_ERROR){
+		cout << "-1" << endl;
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+	}
+
+	cout << val; // print the comment
+
+	sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+	return 0; // return the value
+}
+
+
 
 int SQLiteDB::getViewCount(int id ){
 
@@ -163,7 +584,6 @@ int SQLiteDB::getViewCount(int id ){
 
 	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
 
-	int cols = sqlite3_column_count(stmt); // get no. of columns in table
 	int retv; // return value from SQL db
 
 	retv =  sqlite3_step(stmt);
@@ -180,7 +600,6 @@ int SQLiteDB::getViewCount(int id ){
 	 * 6 - comments
 	 */
 	const char *val = (const char*) sqlite3_column_text(stmt,4); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
-	const char *colname = sqlite3_column_name(stmt,4); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
 
 	if ( retv == SQLITE_ERROR){
 		cout << "-1" << endl;
@@ -209,13 +628,11 @@ int SQLiteDB::OLD_countURLviews(){  // Old Version - Don't Use.
 
 	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
 
-	int cols = sqlite3_column_count(stmt); // get no. of columns in table
 	int retv; // return value from SQL db
 
 	retv =  sqlite3_step(stmt);
 
 	const char *val = (const char*) sqlite3_column_text(stmt,2); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
-	const char *colname = sqlite3_column_name(stmt,2); // index of value of 2 gives us 'urlviews'. index value of 1 would give 'snapcount'
 
 	if ( retv == SQLITE_ERROR){
 		cout << "Some kind of error has occurred" << endl;
@@ -241,7 +658,6 @@ int SQLiteDB::countRows(string sql){ // counts number of records  in given table
 
 	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
 
-	int cols = sqlite3_column_count(stmt); // get no. of columns in table
 	int retv; // return value from SQL db
 
 	/**
@@ -250,7 +666,7 @@ int SQLiteDB::countRows(string sql){ // counts number of records  in given table
 	 */
 	retv =  sqlite3_step(stmt);
 	const char *val = (const char*) sqlite3_column_text(stmt,0);  // the count value
-	const char *colname = sqlite3_column_name(stmt,0); // name of column with count value.
+
 
 	if ( retv == SQLITE_ERROR){
 		cout << "Some kind of error has occurred" << endl;
@@ -276,7 +692,6 @@ int SQLiteDB::countIP(){ // returns number of unique IP visitors
 
 	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
 
-	int cols = sqlite3_column_count(stmt); // get no. of columns in table
 	int retv; // return value from SQL db
 
 
@@ -286,7 +701,6 @@ int SQLiteDB::countIP(){ // returns number of unique IP visitors
 	 */
 	retv =  sqlite3_step(stmt);
 	const char *val = (const char*) sqlite3_column_text(stmt,0);  // the count value
-	const char *colname = sqlite3_column_name(stmt,0); // name of column with count value.
 
 	if ( retv == SQLITE_ERROR){
 		cout << "Some kind of error has occurred" << endl;
@@ -461,7 +875,7 @@ int SQLiteDB::view(string sql){
 			cout << colname << " : " << val << endl;
 		}
 
-		cout << "=================================" << endl;
+		cout <<  DELIM << endl; // record delimeter
 
 	}
 
@@ -495,7 +909,7 @@ int SQLiteDB::view_all(){ /* Prints all records in DB */
 			cout << colname << " : " << val << endl;
 		}
 
-		cout << "=================================" << endl;
+		cout <<  DELIM << endl; // record delimeter
 
 	}
 

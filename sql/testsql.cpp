@@ -13,6 +13,8 @@
 
 #include <fstream> // for reading files
 
+#define DELIM "=========="
+
 using namespace std;
 
 /*Function declaration*/
@@ -30,12 +32,37 @@ void incrementSnap();
 void countSnaps();
 void getViewCount();
 void increaseViewCount();
+void getURLByCat();
+void getTopURL();
+void getTopURLByVote();
+void getBottomURL();
+void getBottomURLByVote();
+void getcomment();
+void getRandURL();
+void getURLinfo(int n);
+void getURLid(string s);
 
 
 
 int main(int argc, char** args) {
 
-	increaseViewCount();
+
+	//getURLinfo(2);
+	getURLid("www.google.com");
+	//getTopURLByVote();
+	//getBottomURLByVote();
+
+
+	//getRandURL();
+
+	//getcomment();
+
+	//getBottomURL();
+	//getTopURL();
+
+	//getURLByCat();
+
+	//increaseViewCount();
 	//getViewCount();
 
 	//countSnaps();
@@ -52,6 +79,111 @@ int main(int argc, char** args) {
 
 }
 
+void getURLinfo(int n) {
+
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+	cout<< "Getting URL info for Specified URL \n";
+
+
+	db.getURLinfo(n);
+}
+
+void getURLid(string url ) {
+
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+	cout<< "Getting URL id  for Specified URL \n";
+
+	db.getURLid(url);
+}
+
+void getTopURLByVote(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Getting URLs info on TOP X URls that are in DB orderd BY VOTES\n";
+	int top = 4;
+	db.getTopURLByVote(4);
+}
+
+
+void getBottomURLByVote(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+	cout<< "Getting URLs info on Bottom  X URls that are in DB orded by VOTES\n";
+	int top = 4;
+	db.getBottomURLByVote(4);
+
+}
+
+
+
+
+void getcomment(){
+
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+	cout<< "Getting Comment for Specified URL \n";
+	int n = 1;
+	db.getcomment(n);
+
+
+}
+
+void getRandURL(){
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+	cout<< "Getting Specified Number of Random URLs info \n";
+	int n = 2;
+	db.getRandURL (n);
+	}
+
+void getBottomURL(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+	cout<< "Getting URLs info on Bottom  X URls that are in DB\n";
+	int top = 4;
+	db.getBottomURL(4);
+
+}
+
+
+void getTopURL(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Getting URLs info on TOP X URls that are in DB\n";
+	int top = 4;
+	db.getTopURL(4);
+}
+
+void getURLByCat(){
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+
+	cout<< "Getting URLs info with given categor that are in DB\n";
+	string cat("test");
+	db.getURLByCat(cat);
+
+}
 
 void increaseViewCount(){
 

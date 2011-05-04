@@ -18,10 +18,10 @@ using namespace std;
 
 int main(int argc, char* args[]) {
 
-	if (argc != 3 ){ // Need 2 Arguments  in this form : [url id, string comment]
+	if (argc != 4 ){ // Need 3 Arguments  in this form : [url id, string comment, string commenter]
 		cout << "-1" <<endl;
 		cout << "Insufficient arguments supplied" << endl;
-		cout << "Usage is addcomment url_id, comment_to_add" << endl;
+		cout << "Usage is addcomment url_id, comment_to_add, commenter_user_name " << endl;
 		return (-1);
 	}
 
@@ -30,6 +30,7 @@ int main(int argc, char* args[]) {
 	stringstream inputStream(id_string);
 
 	string comment(args[2]);
+	string commenter(args[3]); // screename of the commenter.
 
 	if(inputStream >> url_id){ // if we can convert the input string of url-id to an integer
 
@@ -59,13 +60,14 @@ int main(int argc, char* args[]) {
 
 		// Format Comment Properly
 		string comment_text;
-		comment_text =  "Date: ";
+		comment_text = "Name: " + commenter;
+		comment_text +=  "\nDate: ";
 		comment_text += ctime + '\n';
 		comment_text += "Comment: " + comment + "\n";
-		comment_text += "\n" + comment_delimeter + "\n \n";
+		comment_text += "\n" + comment_delimeter + "\n";
 
 
-		string sql = "UPDATE url SET comments = (comments || '\n" + comment_text + "' ) "  + "WHERE id=" + id_string ;
+		string sql = "UPDATE url SET comments = (comments || '" + comment_text + "' ) "  + "WHERE id=" + id_string ;
 
 		//cout << "SQL : " << sql <<endl; // debugging only
 
