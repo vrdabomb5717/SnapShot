@@ -41,14 +41,16 @@ void getcomment();
 void getRandURL();
 void getURLinfo(int n);
 void getURLid(string s);
+void getURLrecent(int n);
 
 
 
 int main(int argc, char** args) {
 
+	getURLrecent(2);
 
 	//getURLinfo(2);
-	getURLid("www.google.com");
+	//getURLid("www.google.com");
 	//getTopURLByVote();
 	//getBottomURLByVote();
 
@@ -77,6 +79,18 @@ int main(int argc, char** args) {
 	//viewall();
 
 
+}
+
+
+void getURLrecent(int n) {
+
+	string dbfile("/mnt/hgfs/EclipseC_workspace/snapshot/test2.db");
+	cout<< "Opening DB File ... \n";
+	SQLiteDB db(dbfile);
+	cout<< "Getting Recent URLs\n";
+
+
+	db.getURLrecent(n);
 }
 
 void getURLinfo(int n) {

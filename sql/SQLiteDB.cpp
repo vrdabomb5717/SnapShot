@@ -525,6 +525,49 @@ int SQLiteDB::getRandURL(int n){
 
 }
 
+
+int SQLiteDB::getURLrecent(int n){
+
+	stringstream s;
+	s << n;
+	string rank = s.str();
+
+	// SELECT * from url ORDER BY views DESC LIMIT N
+	string sql = "SELECT * from url ORDER BY id DESC LIMIT " + rank; // Order by  id  descending.
+
+	const char * select = sql.c_str();
+
+	sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+	sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+	int cols = sqlite3_column_count(stmt); // get no. of columns in table
+	int retv; // return value from SQL db
+
+	while ( SQLITE_ROW == (retv =  sqlite3_step(stmt))){ // get return values from DB, and compare to SQLITE_ROW - the two will match while they are still rows to be retrieved
+		// Print out the rows of data.
+		for(int i =0; i < cols-1; i++){ // cols -1 to skip the comments column
+			const char *val = (const char*) sqlite3_column_text(stmt,i);
+			const char *colname = sqlite3_column_name(stmt,i);
+
+			cout << colname << " : " << val << endl;
+		}
+
+		cout << DELIM << endl; // delimeter has 10 equal signs
+
+	}
+
+	if ( retv == SQLITE_ERROR){
+		cout << "Some kind of error has occurred" << endl;
+		return -1;
+
+	}
+
+	sqlite3_finalize(stmt); // destory statement object to prevent memory leaks.
+	return 0;
+
+}
+
 int SQLiteDB::getcomment(int id ){
 
 	/// Convert id to a string

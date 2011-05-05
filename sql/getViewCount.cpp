@@ -57,7 +57,7 @@ int main(int argc, char* args[]) {
 			stringstream s;
 			s << count;
 			string countS = s.str();
-			cout << "0" << endl;
+			// cout << "0" << endl; // Just print the count.
 			cout << "countS" << endl;
 		}
 
