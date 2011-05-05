@@ -23,6 +23,8 @@ all:
 	make incrementSnaps
 	make votedown
 	make voteup
+	make getcomment
+	make getURLrecent
 
 
 addcomment : addcomment.cpp SQLiteDB.cpp
@@ -91,6 +93,12 @@ votedown : votedown.cpp SQLiteDB.cpp
 
 voteup : voteup.cpp SQLiteDB.cpp
 	g++ $@.cpp SQLiteDB.cpp -g -o $@ -lsqlite3	
+
+getcomment : getcomment.cpp SQLiteDB.cpp
+	g++ $@.cpp SQLiteDB.cpp -g -o $@ -lsqlite3
+
+getURLrecent : getURLrecent.cpp SQLiteDB.cpp
+	g++ $@.cpp SQLiteDB.cpp -g -o $@ -lsqlite3
 
 # Delete all object files
 clean : *.o
