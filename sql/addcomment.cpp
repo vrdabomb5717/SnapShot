@@ -14,16 +14,15 @@
 #include "SQLiteDB.h"
 #include <fstream> // for reading config file
 
-#define comment_delimeter ""
 
 using namespace std;
 
 int main(int argc, char* args[]) {
 
-	if (argc != 4 ){ // Need 3 Arguments  in this form : [url id, string comment, string commenter]
+	if (argc != 3 ){ // Need 3 Arguments  in this form : [url id, string comment]
 		cout << "-1" <<endl;
 		cout << "Insufficient arguments supplied" << endl;
-		cout << "Usage is addcomment url_id, comment_to_add, commenter_user_name " << endl;
+		cout << "Usage is addcomment url_id, comment_to_add " << endl;
 		return (-1);
 	}
 
