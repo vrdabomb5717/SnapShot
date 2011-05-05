@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+<meta content="en-us" http-equiv="Content-Language">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>Welcome to Snapshot ! </title>
+<link href="css/main.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Annie+Use+Your+Telescope' rel='stylesheet' type='text/css'>
+
+<style type="text/css">
+.auto-style1 {
+	text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header"> Welcome to Snapshot ! </div>
+
+<div class="image"> <img src="images/camera.png" ></div>
+
+<div class="input"> 
+	<form action="capture.pl.cgi" method="post"> 
+
+		<input type="text" class="submitaURL"> <input type="submit" value="Snap">
+	
+	</form>
+	
+</div>
+ 
+</body>
+
+</html>
