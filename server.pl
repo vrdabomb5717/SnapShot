@@ -92,10 +92,10 @@ while(my $client_socket = $socket->accept()) { # Wait for and accept new incomin
 
 	### To do:  Process User Input of URLs
 	
-	my $hash; # store url hash which is what will be used to name image file.
+	#my $hash; # store url hash which is what will be used to name image file.
 	my $cap_cmd; # store command to capture image file
 	my $rc; # store return code
-	my $img_name; # name of image file
+	my $img_name; # name of image file. stored as a hash. 
 	foreach my $line(@urls){
 		
 		my @list = split(',', $line);  # Input should be in form: category,vote,URL
@@ -109,10 +109,16 @@ while(my $client_socket = $socket->accept()) { # Wait for and accept new incomin
 	
 		$url = lc($url); # convert to lower case. 
 
-		$img_name = sha1_hex("$url") . ".png"; # hash url to get image name. 
+		$img_name = sha1_hex($url) . ".png"; # hash lowercase url to get image name. 
 		$cap_cmd = "./capture.pl $url $img_name";
 		
 		$rc = system($cap_cmd); # run capture command. 	
+
+		# add to the DB
+		my $add_cmd = "./addurl.pl $cat $vote $url"; 
+
+		system($add_cmd); # add to the SQLite database
+
 	}
 
 	close $client_socket;
