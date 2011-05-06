@@ -31,9 +31,15 @@ Server program should be ran in full X11 environment. It will not work properly 
 
 There is a server daemon process running on vienna.clics.cs.columbia.edu on Port 7777. 
 Once connected, send a list of URLs to be snapped/captured. These should be full and VALID urls. 
+The format in which the URLs should be sent should be as follows: 
+    category, vote, URL
+    Note: vote is either 1 or 0. 1 means Vote up this URL by that many points. 
+    For example: my-fake-cat,1,http://msn.com
+   
 Once done, send the word "quit" to start the capture process on the server daemon. 
-
-
+The server will update the Database accordingly. 
+From testing, it takes 5 seconds to capture a given URL. 
+The images will be stored in the /snaps folder and the name of the image is the SHA1 hash of the url. 
 
 Return Format:
 ==============

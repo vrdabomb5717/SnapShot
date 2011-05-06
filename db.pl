@@ -10,16 +10,15 @@ use DBI;
 
 
 print "inserting into db ...\n";
+createFINALdb();
 #createdb2();
 #initdb();
 #mkdir "./files/$u";
-	
 	
 	my $dbfile = "test.db"; 
 
 	my $dbh = DBI->connect( "dbi:SQLite:$dbfile", "", "",
 	{RaiseError => 1, AutoCommit => 1}) || die "connect to DB", "$dbfile - $DBI::errstr";
-	
 	
 	my ($url, $category, $imagepath, $views, $votes);
 	
@@ -61,8 +60,8 @@ my $insert = "INSERT OR REPLACE INTO stats (snapcount, urlviews) VALUES (:1, :2)
 }
 
 	
-sub createdb{
-	my $dbname = "test2.db";
+sub createFINALdb{
+	my $dbname = "url.db";
 	`sqlite3 $dbname "CREATE TABLE url ( id INTEGER PRIMARY KEY,
                         url TEXT NOT NULL COLLATE NOCASE,
                         category TEXT NOT NULL COLLATE NOCASE,
@@ -77,8 +76,28 @@ sub createdb{
                         UNIQUE (ip) );"`;
 
 `sqlite3 $dbname "CREATE TABLE stats ( id INTEGER PRIMARY KEY,
-                        snapcount INTEGER NOT NULL COLLATE NOCASE,
-                        urlviews INTEGER NOT NULL COLLATE NOCASE);"`;
+                        snapcount INTEGER NOT NULL COLLATE NOCASE);"`;
+exit;     
+}	
+	
+	
+sub createdb{
+	my $dbname = "url.db";
+	`sqlite3 $dbname "CREATE TABLE url ( id INTEGER PRIMARY KEY,
+                        url TEXT NOT NULL COLLATE NOCASE,
+                        category TEXT NOT NULL COLLATE NOCASE,
+                        imagepath TEXT NOT NULL COLLATE NOCASE,
+                        views INTEGER NOT NULL,
+                        votes INTEGER NOT NULL,
+                        comments TEXT NOT NULL COLLATE NOCASE,
+                        UNIQUE (url) );"`;
+                        
+     `sqlite3 $dbname "CREATE TABLE visitors ( id INTEGER PRIMARY KEY,
+                        ip TEXT NOT NULL COLLATE NOCASE,
+                        UNIQUE (ip) );"`;
+
+`sqlite3 $dbname "CREATE TABLE stats ( id INTEGER PRIMARY KEY,
+                        snapcount INTEGER NOT NULL COLLATE NOCASE);"`;
 exit;     
 }	
              
