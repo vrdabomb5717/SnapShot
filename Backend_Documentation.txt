@@ -47,7 +47,7 @@ Program Specification:
 =============================
 1) addcomment
 This adds a Comment to a specified URL in the SQL database.
-Needs 3 arguments: url_id, comment_to_add
+Needs 3 arguments: url_id, comment_to_add, commenter_user_name 
 
 2) getURLid
 Returns URL id of given url string.
