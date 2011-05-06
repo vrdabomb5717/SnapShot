@@ -58,7 +58,7 @@ int main(int argc, char* args[]) {
 			s << count;
 			string countS = s.str();
 			// cout << "0" << endl; // Just print the count.
-			cout << "countS" << endl;
+			cout << countS << endl;
 		}
 
 	} else { // Convert url id part of input string to an integer failed, print out error msg

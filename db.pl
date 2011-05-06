@@ -65,7 +65,7 @@ sub createdb{
 	my $dbname = "test2.db";
 	`sqlite3 $dbname "CREATE TABLE url ( id INTEGER PRIMARY KEY,
                         url TEXT NOT NULL COLLATE NOCASE,
-                        category TEXT NOT NULL,
+                        category TEXT NOT NULL COLLATE NOCASE,
                         imagepath TEXT NOT NULL COLLATE NOCASE,
                         views INTEGER NOT NULL,
                         votes INTEGER NOT NULL,

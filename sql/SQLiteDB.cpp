@@ -44,7 +44,7 @@ SQLiteDB::~SQLiteDB(){ // Destructor
 }
 
 int SQLiteDB::update(string sql){
-	cout << "Trying to update data in SQL Database \n"; // debugging
+	//cout << "Trying to update data in SQL Database \n"; // debugging
 
 
 	const char * update = sql.c_str();
@@ -65,14 +65,14 @@ int SQLiteDB::update(string sql){
 		cout << "Error Msg: "<<retmsg <<endl;
 		return -1;
 	} else {
-		cout << "Update Succeeded \n\n";
+		//cout << "Update Succeeded \n\n";
 		free(retmsg);
 		return 0;
 	}
 
 }
 int SQLiteDB::insert(string sql){
-	cout << "Trying to insert data into SQL Database \n"; // debugging
+	//cout << "Trying to insert data into SQL Database \n"; // debugging
 
 
 	const char * insert = sql.c_str();
@@ -109,7 +109,7 @@ int SQLiteDB::insert(string sql){
 		return -1;
 
 	} else {
-		cout << "Insert Succeeded \n";
+		//cout << "Insert Succeeded \n"; // debuggin only
 		return 0;
 	}
 
@@ -159,7 +159,7 @@ int SQLiteDB::addIP(string ip){
 
 	string sql = "INSERT INTO visitors VALUES(NULL, '" + ip + "')";
 
-	cout << "SQL : " << sql <<endl; // debugging only
+	//cout << "SQL : " << sql <<endl; // debugging only
 
 	int retv =  insert(sql);
 	if (retv != 0) {
@@ -860,7 +860,7 @@ int SQLiteDB::addurl(string url, string category, string imagepath, int votes_no
 		cout << "Some error has occured" << endl;
 		return -1;
 	} else {
-		cout << "Url added " << endl;
+		//cout << "Url added " << endl; // debugging only
 		return 0;
 	}
 }

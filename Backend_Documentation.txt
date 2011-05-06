@@ -51,6 +51,7 @@ Needs 3 arguments: url_id, comment_to_add
 
 2) getURLid
 Returns URL id of given url string.
+Outputs nothing if url not found. 
 Arguments: url_id
 
 3) getURLinfo
@@ -124,7 +125,7 @@ This adds a URL to the SQL database.
 Needs 4 Arguments: url, category, imagepath, votes 
 where: 
     URL - the full URL of the webpage/site
-    category - category of the URL, if any
+    category - category of the URL, if any. This should be ONE WORD w/o spaces.
     imagepath - full image path to image of webpage
     votes - 1 or 0. Indicates if user chose to Vote UP URL when adding it. 
 Outputs 0 on success and -1 on error. 

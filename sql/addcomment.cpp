@@ -19,19 +19,26 @@ using namespace std;
 
 int main(int argc, char* args[]) {
 
-	if (argc != 3 ){ // Need 3 Arguments  in this form : [url id, string comment]
+	if (argc < 3 ){ // Need (at least) 2 Arguments  in this form : [url id, string comment]. String comment will be a long string so it will be separated by space.
 		cout << "-1" <<endl;
 		cout << "Insufficient arguments supplied" << endl;
 		cout << "Usage is addcomment url_id, comment_to_add " << endl;
 		return (-1);
 	}
 
+	// Reconstruct Input argument back to a whole string.
+	string comment = ""; // store reconstructed whole comment string.
+	for(int i = 2; i < argc; i++){
+		string toadd;
+		string temp(args[i]); // convert cmd arg to a C++ string
+		toadd = temp + " ";
+		comment += toadd;  // add to the comment
+	}
+
+
 	int url_id; // url id to add comment to.
 	string id_string(args[1]); // get the url-id and store in id_string
 	stringstream inputStream(id_string);
-
-	string comment(args[2]);
-	string commenter(args[3]); // screename of the commenter.
 
 	if(inputStream >> url_id){ // if we can convert the input string of url-id to an integer
 
