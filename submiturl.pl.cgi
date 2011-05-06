@@ -14,9 +14,10 @@ my $url = $q->param('url'); #url
 my $category = $q->param('category'); #category
 my $comments = $q->param('comments'); #comments
 my $ip = $ENV{'REMOTE_ADDR'};
+my $votes = 0;
 
 # insert into DB here
-system("./sql/addurl", "$url", "$category", "$comments");
+system("./sql/addurl", "$url", "$category", "$imagepath", "$votes");
 
 sub site_error
 {
