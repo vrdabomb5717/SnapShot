@@ -24,9 +24,20 @@ stats table has following fields:
     -id
     -snapcount 
 
+    
+Communicating with Server Daemon
+================================
+Server program should be ran in full X11 environment. It will not work properly when ran over SSH. 
+
+There is a server daemon process running on vienna.clics.cs.columbia.edu on Port 7777. 
+Once connected, send a list of URLs to be snapped/captured. These should be full and VALID urls. 
+Once done, send the word "quit" to start the capture process on the server daemon. 
+
+
+
 Return Format:
 ==============
-Program that return info on multiple URLs this delimiter "==========" on a new Line. See sample below:
+Program that return info on multiple URLs this delimeter "==========" on a new Line. See sample below:
 id : 6
 url : www.hahahaha.com
 category : no-category
@@ -45,6 +56,8 @@ votes : 100
 
 Program Specification:
 =============================
+In Running the programs, make sure that you run them from the same directory as the programs are located in. 
+
 1) addcomment
 This adds a Comment to a specified URL in the SQL database.
 Needs 3 arguments: url_id, comment_to_add
