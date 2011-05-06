@@ -25,6 +25,7 @@ all:
 	make voteup
 	make getcomment
 	make getURLrecent
+	rm -rf *.dSYM
 
 
 addcomment : addcomment.cpp SQLiteDB.cpp
@@ -101,5 +102,5 @@ getURLrecent : getURLrecent.cpp SQLiteDB.cpp
 	g++ $@.cpp SQLiteDB.cpp -g -o $@ -lsqlite3
 
 # Delete all object files
-clean : *.o
-	rm -rf *.o
+clean :
+	rm -rf *.o *.dSYM addcomment addIP addurl countIP getBottomURL getBottomURLByVote getRandURL getTopURL getTopURLByVote getURLByCat getURLid getURLinfo getViewCount increaseViewCount incrementSnaps getcomment votedown voteup getURLrecent

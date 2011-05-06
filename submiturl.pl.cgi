@@ -16,6 +16,7 @@ my $comments = $q->param('comments'); #comments
 my $ip = $ENV{'REMOTE_ADDR'};
 
 # insert into DB here
+system("./sql/addurl", "$url", "$category", "$comments");
 
 sub site_error
 {
