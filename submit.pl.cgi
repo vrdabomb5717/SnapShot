@@ -17,9 +17,11 @@ my $comments = $q->param('comments'); #comments
 my $ip = $ENV{'REMOTE_ADDR'};
 my $votes = 0;
 
-($url, $category) = @ARGV;
-print @ARGV;
+#($url, $category) = @ARGV; # debugging code. 
+# print @ARGV; # debuggin code
 
+
+#exit; 
 my $server_name = "vienna.clic.cs.columbia.edu"; # name of server to connect to
 my $server_port = 7777; # port number. 
 my $input; # msg to send to server
@@ -27,11 +29,14 @@ my $server_socket;
 my $server_response; #store servers reply
 
 
-if(undef($url) || undef($category))
+
+if(!defined($url) || !defined($category) || $url eq '' || $category eq '') # doesn't accept empty submissions
 { 
 	# do simple argument validation
 	&site_error();
+	exit; # Stop running script. 
 }
+
 
 $server_socket = IO::Socket::INET->new( # create new socket and connect to specified address
 								PeerAddr => $server_name,
@@ -43,7 +48,7 @@ die "Cannot create a connection to the server: Connection Refused ! " unless $se
 
 
 # insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
-$server_socket->send($category, 0, $url);
+$server_socket->send("$category,0,$url");
 $server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input . 
 $server_socket->send("quit");
 &success();
