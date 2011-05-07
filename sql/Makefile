@@ -105,6 +105,9 @@ getURLrecent : getURLrecent.cpp SQLiteDB.cpp
 countSnaps : countSnaps.cpp SQLiteDB.cpp
 	g++ $@.cpp SQLiteDB.cpp -g -m32 -o $@ -lsqlite3
 
+getTotalViews : getTotalViews.cpp SQLiteDB.cpp
+	g++ $@.cpp SQLiteDB.cpp -g -m32 -o $@ -lsqlite3
+
 # Delete all object files
 clean : *.o
 	rm -rf *.o

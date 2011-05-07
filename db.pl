@@ -11,6 +11,7 @@ use DBI;
 
 print "inserting into db ...\n";
 createFINALdb();
+
 #createdb2();
 #initdb();
 #mkdir "./files/$u";
@@ -39,8 +40,7 @@ sub createdb2{ # make a stat db, and create the 0th id.
                         UNIQUE (ip) );"`;
 
 `sqlite3 test2.db "CREATE TABLE stats ( id INTEGER PRIMARY KEY,
-                        snapcount INTEGER NOT NULL COLLATE NOCASE,
-                        urlviews INTEGER NOT NULL COLLATE NOCASE);"`;
+                        snapcount INTEGER NOT NULL COLLATE NOCASE);"`;
 	
 exit;  
 }
@@ -76,7 +76,8 @@ sub createFINALdb{
                         UNIQUE (ip) );"`;
 
 `sqlite3 $dbname "CREATE TABLE stats ( id INTEGER PRIMARY KEY,
-                        snapcount INTEGER NOT NULL COLLATE NOCASE);"`;
+                        snapcount INTEGER NOT NULL COLLATE NOCASE,
+                        totalviews INTEGER NOT NULL COLLATE NOCASE);"`;
 exit;     
 }	
 	

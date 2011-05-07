@@ -50,6 +50,8 @@ public:
 	int getURLid(string url); // returns the URL id for the given URL string
 	int getURLinfo(int id) ; // returns Info for specified URL id. comments are excluded
 	int getURLrecent(int n); // returns the N most recent URLs snapped.
+	int getTotalViews();  // returns the total number of URL Views
+
 
 	int OLD_countURLviews(); // OLD version - don't use. gets a count of total url views. [can think of as being number of pages viewed / served.]
 	int OLD_incrURLviews(); // OLD version - don't use. increments number of URL viewed - OLD version. don't use

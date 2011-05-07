@@ -762,6 +762,39 @@ int SQLiteDB::countIP(){ // returns number of unique IP visitors
 
 }
 
+int SQLiteDB::getTotalViews(){
+	string sql = "SELECT SUM(views) FROM url";
+		const char * select = sql.c_str();
+		sqlite3_stmt *stmt; /* A ptr to a statement object*/
+
+		sqlite3_prepare_v2(dbPtr,select,-1,&stmt,0); // prep statement
+
+		int retv; // return value from SQL db
+
+
+		/**
+		 * We are doing a basic count of the rows in visitors table
+		 * SQL returns this as the first row of the first column in a 1x1 table, so use index value of 0
+		 */
+		retv =  sqlite3_step(stmt);
+		const char *val = (const char*) sqlite3_column_text(stmt,0);  // the count value
+
+		if ( retv == SQLITE_ERROR){
+			cout << "Some kind of error has occurred" << endl;
+			return -1;
+		}
+
+		// Convert string to integer //
+		string value(val); // convert to a c++ string
+		stringstream s(value); /// make stringstream from using the "value" string
+		int i;
+		s >> i; // convert to integer
+
+		sqlite3_finalize(stmt); // destroy statement object to prevent memory leaks.
+
+		return i; // return the value
+}
+
 int SQLiteDB::incrSnaps(){
 
 	string url_id = "1"; // ID is always constant at 1 because, we only have 1 row in stats table.

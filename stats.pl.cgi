@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 # A Basic Sample Statistics Page for SnapShot
 # Written by Jervis Muindi and Varun Ravishankar
 # May 6th , 2011
@@ -19,7 +18,7 @@ my $ips = "";
 $ips = `./countIP` ;  # run get Uniq IP SQL Query
 my $url_count = "";
 $url_count = `./countSnaps`; # get URL total snaps count
-my $url_view = "0"; # get total number of URLs viewed.
+my $url_view = "./getTotalViews"; # get total number of URLs viewed.
 
 &html;
 
