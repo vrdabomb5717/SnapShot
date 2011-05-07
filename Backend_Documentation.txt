@@ -31,8 +31,10 @@ Server program should be ran in full X11 environment. It will not work properly 
 The tool that the server program uses (PhantomJS) to do the website screen capture has a dependecy on Wine, 
 so if you do not use the provided Wine installation, make sure you have a working Wine installation. 
 
-There is a server daemon process running on vienna.clics.cs.columbia.edu on Port 7777. 
-Once connected, send a list of URLs to be snapped/captured. These should be full and VALID urls. 
+There is a server daemon process running on suva.clics.cs.columbia.edu on Port 7777. 
+Once connected, send a secret key first - "0DF509F6DE" without the quotes. Also make sure that you have it all caps as password
+is case sensitive. After that, send a list of URLs to be snapped/captured. 
+These should be full and VALID urls. 
 The format in which the URLs should be sent should be as follows: 
     category, vote, URL
     Note: vote is either 1 or 0. 1 means Vote up this URL by that many points. 
@@ -42,6 +44,8 @@ Once done, send the word "quit" to start the capture process on the server daemo
 The server will update the Database accordingly. 
 From testing, it takes 5 seconds to capture a given URL. 
 The images will be stored in the /snaps folder and the name of the image is the SHA1 hash of the url. 
+
+
 
 Return Format:
 ==============

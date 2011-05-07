@@ -22,6 +22,18 @@ sub log {
 	close FILE; # save changes
 }
 
+sub url {
+	my($self, $event) = @_; 
+	
+	open (FILE, ">>Logs/url.txt"); # Open file for appending. Note this will create the file if it does not exist already. 
+	flock(FILE, LOCK_EX); # get file lock handle  
+	{ 
+		print (FILE "$event\n"); #Append to login file	
+	}
+	close FILE; # save changes
+}
+
+
 # log registrations
 sub logReg{
 	my($self, $event) = @_; 

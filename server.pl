@@ -14,7 +14,7 @@
 use strict;
 use IO::Socket::INET; # import network socket
 use Digest::SHA qw(sha1 sha1_hex sha1_base64); # import SHA 1 hash
-
+use Log; # use Custom Logging module
 
 $| = 1; # auto flush buffers
 
@@ -66,11 +66,42 @@ while(my $client_socket = $socket->accept()) { # Wait for and accept new incomin
 
 	##### Process Client Input ####
 	my @urls; # keep list of urls. 
+	my $first_run = 1; # set to true, so that we can do pass checking
+	my $password = "0DF509F6DE"; # 10 character Secret Code to get Server to do screen capture
+
+	my $clientip = $client_socket->peerhost();  # get client IP
+	my $time = localtime();  # get current time
+	print STDOUT "Received a connection from $clientip at $time\n";  # Print Client IP connection
+
 	while(1){ # Continous keep on printing user input
 	
 		my $line; # store read line input from client.
 		my $user_input;
 
+		if($first_run == 1) { # if it's first time Client connected, check for correct password input
+
+			### Verify that Secret Key provided by Client is valid.
+			# This ensures that we serve requests only to legitmate
+			# client and not just some random bot on the Internet
+			
+			my $pass = "";
+			$client_socket->recv($pass,256); # wait for 256 bytes chunk of data and store in $password
+
+			if ($pass ne $password) {
+				print STDOUT "Connection from $clientip closed due to wrong password : $pass \n" ; # debugging
+				$client_socket->send("Connection Refused\n"); #notify client
+				close $client_socket;  # close connection
+				Log->log("Refused Connection to $clientip at $time");  # log failed connection. no new line - it's autoadded by module
+				exit; # quit 
+			} else {
+				$client_socket->send("Connection Accepted\n"); # notify client of accepted connection. 
+				Log->log("Accepted connection from $clientip at $time"); #no new line, it's autoadded by module
+
+Log->url("$clientip sent us the following input at about $time \n ========================================"); # start logging url input
+         
+			}			
+		}
+		
 		$client_socket->recv($user_input,256); # wait for 256 bytes chunk of data and store in $user_input . 
 		print STDOUT "Server-received:$user_input\n";
 
@@ -84,10 +115,12 @@ while(my $client_socket = $socket->accept()) { # Wait for and accept new incomin
 		}
 
 	push @urls, $user_input; # add user-input to list. 
+	Log->url("$user_input"); 
 
 	#$reverse_input = reverse($user_input); # reverse input
 	$client_socket->send("Input received\n"); # send ACK to client. 
 	
+	$first_run = 0; # set to false. 
 	}
 
 	### To do:  Process User Input of URLs
