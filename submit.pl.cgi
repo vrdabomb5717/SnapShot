@@ -19,7 +19,7 @@ my $votes = 0;
 #($url, $category) = @ARGV; # debugging code. 
 # print @ARGV; # debuggin code
 
-my $server_name = "vienna.clic.cs.columbia.edu"; # name of server to connect to
+my $server_name = "suva.clic.cs.columbia.edu"; # name of server to connect to
 my $server_port = 7777; # port number. 
 my $input; # msg to send to server
 my $server_socket;
@@ -32,17 +32,16 @@ if(!defined($url) || !defined($category) || $url eq '' || $category eq '') # doe
 	exit; # Stop running script. 
 }
 
-
 $server_socket = IO::Socket::INET->new( # create new socket and connect to specified address
 								PeerAddr => $server_name,
 								PeerPort => $server_port,
 								Proto => 'tcp'
 								);
-					
+				
 die "Cannot create a connection to the server: Connection Refused ! " unless $server_socket; # debuggin code
 
-print "url is $url<br>";
-print "category is $category<br>";
+# print "url is $url<br>";
+# print "category is $category<br>";
 
 # insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
 $server_socket->send("0DF509F6DE");
