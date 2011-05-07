@@ -49,7 +49,18 @@
 		
 		<form name="urlsubmit" action="submit.pl.cgi"  method="POST">
 			URL: <input type="url" name="url" placeholder="Submit a website!" required> <br>
-			Category: <input type="text" name="category" placeholder="Pick a category." required> <br>			
+			Category:
+			<select name="category">
+				<option value="News">News</option>
+				<option value="Business">Business</option>
+				<option value="Politics">Politics</option>
+				<option value="Technology">Technology</option>
+				<option value="Gaming">Gaming</option>
+				<option value="Science">Science</option>
+				<option value="Entertainment">Entertainment</option>
+				<option value="Sports">Sports</option>
+				<option value="Other">Other</option>
+			</select><br>		
 			<input type="submit" value="Submit">
 		</form>
 
