@@ -26,6 +26,7 @@ all:
 	make getcomment
 	make getURLrecent
 	make countSnaps
+	rm -rf *.dSYM
 
 
 addcomment : addcomment.cpp SQLiteDB.cpp
@@ -107,3 +108,7 @@ countSnaps : countSnaps.cpp SQLiteDB.cpp
 # Delete all object files
 clean : *.o
 	rm -rf *.o
+
+# Delete executables as well as object files
+clean_exec:
+	rm -rf *.o *.dSYM addcomment addIP addurl countIP getBottomURL getBottomURLByVote getRandURL getTopURL getTopURLByVote getURLByCat getURLid getURLinfo getViewCount increaseViewCount incrementSnaps getcomment votedown voteup getURLrecent
