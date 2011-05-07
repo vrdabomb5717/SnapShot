@@ -13,7 +13,6 @@ print $q->header();
 
 my $url = $q->param('url'); #url
 my $category = $q->param('category'); #category
-my $comments = $q->param('comments'); #comments
 my $ip = $ENV{'REMOTE_ADDR'};
 my $votes = 0;
 
@@ -48,11 +47,26 @@ die "Cannot create a connection to the server: Connection Refused ! " unless $se
 
 
 # insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
+$server_socket->send("0DF509F6DE");
 $server_socket->send("$category,0,$url");
 $server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input . 
 $server_socket->send("quit");
-&success();
 
+	#page displayed if info is sent successfully
+
+print <<END_OF_PRINTING;
+<html><head>
+<meta http-equiv="refresh" content="3; URL=index.html">
+<title>URL Received!</title></head>
+<body>
+<br>Thanks, your URL has been received!<br>
+<br> Redirecting to the home page in 3 seconds...<br>
+</body
+</html>
+	
+END_OF_PRINTING
+
+exit;
 
 sub site_error
 {
@@ -73,11 +87,11 @@ END_OF_PRINTING
 
 sub success
 {
-	#page displayed if website is malformed
+	#page displayed if info is sent successfully
 
 		print <<END_OF_PRINTING;
 		<html><head>
-		<meta http-equiv="refresh" content="3; URL=submit.html">
+		<meta http-equiv="refresh" content="3; URL=index.html">
 		<title>URL Received!</title></head>
 		<body>
 		<br>Thanks, your URL has been received!<br>
