@@ -38,6 +38,12 @@ print "Connected to server $server_name:$server_port. Please enter text to be se
 #$server_socket = $socket->connect(); # connect to the server
 #$socket->send("HELLO MSG FROM CLIENT");
 
+##### Login into server#####
+print "Attempting to Connect and login to server ... \n"; 
+my $pass = "0DF509F6DE"; 
+$server_socket->send($pass); # send to server.
+$server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input
+
 while($input = <STDIN>){ # get getting user input
 	chomp($input); # remove last new line char
 	#print "User input is: $input"; # debuggin code
