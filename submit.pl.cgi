@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use CGI qw/:all/;
 use IO::Socket::INET;
-$| = 1; # auto flush buffers
+# $| = 1; # auto flush buffers
 
 my (@pairs, $key, $value, $inputstring);
 
@@ -17,8 +17,8 @@ my $comments = $q->param('comments'); #comments
 my $ip = $ENV{'REMOTE_ADDR'};
 my $votes = 0;
 
-($url, $category) = @_;
-print @_;
+($url, $category) = @ARGV;
+print @ARGV;
 
 my $server_name = "vienna.clic.cs.columbia.edu"; # name of server to connect to
 my $server_port = 7777; # port number. 
