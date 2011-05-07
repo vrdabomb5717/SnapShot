@@ -71,7 +71,7 @@ sub html
 							<li><a href="#">Most Popular</a></li>
 							<li><a href="#">Most Recent</a></li>
 							<li><a href="stats.pl.cgi">Statistics</a></li>
-							<li><a href="#">About</a></li>
+							<li><a href="about.html">About</a></li>
 						</ul>
 					</nav>
 					<title> Statistics Page </title>
@@ -93,8 +93,8 @@ sub html
 						<h1>Navigation</h1>
 						<ul>
 							<li><a href="index.html">Home</a></li>
-							<li><a href="#">Statistics</a></li>
-							<li><a href="#">About</a></li>
+							<li><a href="stats.pl.cgi">Statistics</a></li>
+							<li><a href="about.html">About</a></li>
 						</ul>
 					</nav>
 					<nav id="links">

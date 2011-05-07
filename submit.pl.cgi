@@ -19,15 +19,11 @@ my $votes = 0;
 #($url, $category) = @ARGV; # debugging code. 
 # print @ARGV; # debuggin code
 
-print "Content-type: text/html\n\n"; # declaration for HTML output of cgi script
-
 my $server_name = "vienna.clic.cs.columbia.edu"; # name of server to connect to
 my $server_port = 7777; # port number. 
 my $input; # msg to send to server
 my $server_socket;
 my $server_response; #store servers reply
-
-
 
 if(!defined($url) || !defined($category) || $url eq '' || $category eq '') # doesn't accept empty submissions
 { 
@@ -45,6 +41,8 @@ $server_socket = IO::Socket::INET->new( # create new socket and connect to speci
 					
 die "Cannot create a connection to the server: Connection Refused ! " unless $server_socket; # debuggin code
 
+print "url is $url<br>";
+print "category is $category<br>";
 
 # insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
 $server_socket->send("0DF509F6DE");
@@ -52,20 +50,7 @@ $server_socket->send("$category,0,$url");
 $server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input . 
 $server_socket->send("quit");
 
-	#page displayed if info is sent successfully
-
-print <<END_OF_PRINTING;
-<html><head>
-<meta http-equiv="refresh" content="3; URL=index.html">
-<title>URL Received!</title></head>
-<body>
-<br>Thanks, your URL has been received!<br>
-<br> Redirecting to the home page in 3 seconds...<br>
-</body
-</html>
-	
-END_OF_PRINTING
-
+&success();
 exit;
 
 sub site_error
