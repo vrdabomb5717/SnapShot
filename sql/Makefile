@@ -26,6 +26,7 @@ all:
 	make getcomment
 	make getURLrecent
 	make countSnaps
+	make getTotalViews 
 	rm -rf *.dSYM
 
 
@@ -114,4 +115,4 @@ clean : *.o
 
 # Delete executables as well as object files
 clean_exec:
-	rm -rf *.o *.dSYM addcomment addIP addurl countIP getBottomURL getBottomURLByVote getRandURL getTopURL getTopURLByVote getURLByCat getURLid getURLinfo getViewCount increaseViewCount incrementSnaps getcomment votedown voteup getURLrecent
+	rm -rf *.o *.dSYM addcomment addIP addurl countIP countSnaps getBottomURL getBottomURLByVote getRandURL getTopURL getTopURLByVote getURLByCat getURLid getURLinfo getViewCount increaseViewCount incrementSnaps getcomment votedown voteup getURLrecent getTotalViews
