@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 # A Basic Sample Statistics Page for SnapShot
-# Written by Jervis Muindi
+# Written by Jervis Muindi and Varun Ravishankar
 # May 6th , 2011
 
 use strict;
@@ -13,10 +13,14 @@ use Digest::MD5 qw(md5 md5_hex md5_base64);
 
 my $SQL_PATH = "sql"; 
 
-chdir $SQL_PATH ;  # change to directory with SQL 
+chdir $SQL_PATH;  # change to directory with SQL 
 
-my $ips = `./countIP` ;  # run get Uniq IP SQL Query
-my $url_count = `./countSnaps`; # get URL total snaps count
+my $ips = "";
+$ips = `./countIP` ;  # run get Uniq IP SQL Query
+my $url_count = "";
+$url_count = `./countSnaps`; # get URL total snaps count
+my $url_view = "0"; # get total number of URLs viewed.
+
 &html;
 
 sub html
@@ -77,6 +81,7 @@ sub html
 				    <h1> Site Statistics </h1>
 		    		<h2> Number of Unique Visitors : $ips </h2>
 		   			<h2> Number of URLs Snapped    : $url_count </h2>
+		   			<h2> Number of URLs Viewed     : $url_view </h2>
 		   		</hgroup>
 		
 				</div>
