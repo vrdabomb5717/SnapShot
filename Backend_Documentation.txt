@@ -28,6 +28,8 @@ stats table has following fields:
 Communicating with Server Daemon
 ================================
 Server program should be ran in full X11 environment. It will not work properly when ran over SSH. 
+The tool that the server program uses (PhantomJS) to do the website screen capture has a dependecy on Wine, 
+so if you do not use the provided Wine installation, make sure you have a working Wine installation. 
 
 There is a server daemon process running on vienna.clics.cs.columbia.edu on Port 7777. 
 Once connected, send a list of URLs to be snapped/captured. These should be full and VALID urls. 
@@ -166,3 +168,8 @@ Arguments: url_id
 20) getURLrecent
 Returns the most recent X URLs uploaded to the site. X is an integer specified by the user.
 Arguments: Number of recent URLs to return. 
+
+21) countSnaps
+Returns the number of URL snaps takens. 
+Outputs -1 if an error occurs. 
+Takes no arguments. 
