@@ -45,9 +45,11 @@ die "Cannot create a connection to the server: Connection Refused ! " unless $se
 
 # insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
 $server_socket->send("0DF509F6DE");
-$server_socket->send("$category,0,$url");
+$server_socket->recv($server_response,256); # wait for server connection accept message. 
+$server_socket->send("$category,0,$url"); # send the url to the server. 
 $server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input . 
 $server_socket->send("quit");
+close $server_socket;  # close the connection. 
 
 &success();
 exit;
