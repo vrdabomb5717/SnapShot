@@ -19,8 +19,8 @@ my $votes = 0;
 #($url, $category) = @ARGV; # debugging code. 
 # print @ARGV; # debuggin code
 
+print "Content-type: text/html\n\n"; # declaration for HTML output of cgi script
 
-#exit; 
 my $server_name = "vienna.clic.cs.columbia.edu"; # name of server to connect to
 my $server_port = 7777; # port number. 
 my $input; # msg to send to server
