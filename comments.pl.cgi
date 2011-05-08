@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 use CGI qw/:all/;
-use IO::Socket::INET;
 
 my $q = CGI->new(); # cgi object
 print $q->header();

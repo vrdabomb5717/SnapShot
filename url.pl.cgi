@@ -140,7 +140,7 @@ END_OF_HTML
 				<br/></a>";
 		
 		print "Views: $views<br>";
-		print "Votes: $votes<br>";
+		print "Votes: $votes <a href=\"voteup.pl.cgi\">Vote up<\a>  <br>";
 		print "<br><br>";
 		print "Comments: <br><br>";
 		
