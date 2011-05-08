@@ -10,14 +10,14 @@ use DBI;
 
 
 print "inserting into db ...\n";
-createFINALdb();
+#createFINALdb();
 
 #createdb2();
 #initdb();
 #mkdir "./files/$u";
 	
-	my $dbfile = "test.db"; 
-
+	my $dbfile = "url.db"; 
+	
 	my $dbh = DBI->connect( "dbi:SQLite:$dbfile", "", "",
 	{RaiseError => 1, AutoCommit => 1}) || die "connect to DB", "$dbfile - $DBI::errstr";
 	
@@ -30,9 +30,13 @@ createFINALdb();
 	$votes = "10";
 	 
 # INSERT INTO userpass (filepath, filename, public, permissions, timemodified, timeadded, size, kind, comments, tags) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10)
-	my $insert = "INSERT OR REPLACE INTO url (url, category, imagepath, views, votes) VALUES (:1, :2, :3, :4, :5)";
+	#my $insert = "INSERT OR REPLACE INTO url (url, category, imagepath, views, votes) VALUES (:1, :2, :3, :4, :5)";
+	my $insert = "INSERT INTO stats (snapcount, totalviews) VALUES (:1, :2)";
 	my $sth = $dbh->prepare("$insert");
-	$sth->execute($url, $category, $imagepath, $views, $votes);
+	#$sth->execute($url, $category, $imagepath, $views, $votes);
+	$sth->execute(0, 0); 
+
+exit; 
 
 sub createdb2{ # make a stat db, and create the 0th id. 
 	`sqlite3 test2.db "CREATE TABLE visitors ( id INTEGER PRIMARY KEY,
