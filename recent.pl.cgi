@@ -1,6 +1,6 @@
 #!/usr/bin/perl --
 # A Basic Sample Statistics Page for SnapShot
-# Written by Jervis Muindi and Varun Ravishankar
+# Written by Varun Ravishankar and Jervis Muindi
 # May 6th , 2011
 
 use strict;
@@ -22,9 +22,35 @@ my $urls = `./getURLrecent 10`;
 my @list = split("==========", $urls);
 
 
-foreach(@list)
+foreach my $line(@list)
 {
-	print "$_<BR>";
+	$line =~ s/://g;
+	my @strings = split(/\s+/, $line);
+	
+	my $id = $strings[2];
+	my $url = $strings[4];
+	my $category = $strings[6];
+	my $imagepath = $strings[8];
+	my $views = $strings[10];
+	my $votes = $strings[12];
+
+	my $domain = $url;
+	
+	if($domain =~ /([^:]*:\/\/)?([^\/]*\.)*([^\/\.]+)\.[^\/]+/g)
+	{
+		$domain = $3;
+	}
+	
+	print "<a href=\"$url\">$url</a> ($category)<br><br>";
+	print "<a href=$imagepath rel=\"lightbox\" title=\"$domain\">
+				<img src=\"$imagepath\" alt=\"$domain\" title=\"$domain.\" />
+				<br/></a>";
+	
+	print "$imagepath<br>";
+	print "$views<br>";
+	print "$votes<br>";
+	
+	print "<br><br>";
 }
 
 sub html
@@ -54,6 +80,7 @@ sub html
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			
 			<link rel="shortcut icon" href="/favicon.ico">
+			<link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" />
 		<!-- 	<link rel="stylesheet" href="css/style.css?v=2"> -->
 			
 		<!--
@@ -62,6 +89,8 @@ sub html
 		-->
 			
 			<script src="js/libs/modernizr-1.7.min.js"></script>
+			<script type="text/javascript" src="js/libs/jquery-1.5.2.min.js"></script>
+			<script type="text/javascript" src="js/slimbox2.js"></script>
 		</head>
 		<body>
 			<div id="container">
