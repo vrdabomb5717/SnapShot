@@ -54,7 +54,7 @@ sub htmlprint
 			
 			<link rel="shortcut icon" href="/favicon.ico">
 			<link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" />
-		<!-- 	<link rel="stylesheet" href="css/style.css?v=2"> -->
+			<link rel="stylesheet" href="css/style.css?v=2">
 			
 		<!--
 			<link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -83,7 +83,8 @@ sub htmlprint
 END_OF_HTML
 
 	my $bool = 0;
-
+	print "<br>";
+	
 	foreach my $line(@list)
 	{
 		print "<br><br>";

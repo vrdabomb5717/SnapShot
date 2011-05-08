@@ -1,4 +1,3 @@
-
 /* ==== Scroll down to find where to put your styles :) ==== */
 
 /*  HTML5 ✰ Boilerplate  */
@@ -92,6 +91,11 @@ body
     /* width: 940px;   */
     font: 13px/22px Helvetica, Arial, sans-serif;  
     background: #f0f0f0;  
+}
+
+h1
+{
+	font: 24px/22px	
 }
 
 

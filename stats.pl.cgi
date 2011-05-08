@@ -7,10 +7,6 @@ use strict;
 use warnings;
 use CGI qw/:all/;
 
-my $q = CGI->new(); # cgi object
-print $q->header();
-
-
 # Get Statistics info :
 
 my $SQL_PATH = "sql"; 
@@ -52,7 +48,7 @@ sub html
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			
 			<link rel="shortcut icon" href="/favicon.ico">
-		<!-- 	<link rel="stylesheet" href="css/style.css?v=2"> -->
+			<link rel="stylesheet" href="css/style.css?v=2">
 			
 		<!--
 			<link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -78,12 +74,13 @@ sub html
 				</header>
 		
 				<div id="main" role="main">
-				
+				<br><br>
+				<h1> Site Statistics </h1>
+				<br><br>
 				<hgroup id="stats">
-				    <h1> Site Statistics </h1>
-		    		<h2> Number of Unique Visitors : $ips </h2>
-		   			<h2> Number of URLs Snapped    : $url_count </h2>
-		   			<h2> Number of URLs Viewed     : $url_view </h2>
+		    		<h1> Number of Unique Visitors : $ips </h1>
+		   			<h1> Number of URLs Snapped    : $url_count </h1>
+		   			<h1> Number of URLs Viewed     : $url_view </h1>
 		   		</hgroup>
 		
 				</div>
