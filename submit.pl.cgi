@@ -17,7 +17,11 @@ my $category = $q->param('category1'); #category
 my $url2 = $q->param('url2'); #url
 my $category2 = $q->param('category2'); #category
 
+my $SQL_PATH = "sql"; 
+chdir $SQL_PATH;  # change to directory with SQL 
 my $ip = $ENV{'REMOTE_ADDR'};
+`./addIP $ip`;
+
 my $votes = 0;
 
 #($url, $category) = @ARGV; # debugging code. 

@@ -24,6 +24,10 @@ my $urlinfo = `./getURLinfo $urlid`;
 
 my @list = split("==========", $urlinfo);
 
+my $ip = $ENV{'REMOTE_ADDR'};
+`./addIP $ip`;
+
+
 &htmlprint(@list);
 
 
@@ -93,7 +97,7 @@ END_OF_HTML
 		print "<br><br>";
 		chomp;
 		$line =~ s/://g;
-# 		print "$line<br><br>";
+
  		&site_error if $line eq "id  ";
 		next if ($line eq "");
 		my @strings = split(/\s+/, $line);
@@ -135,17 +139,40 @@ END_OF_HTML
 				<img src=\"$imagepath\" alt=\"$domain\" title=\"$domain.\" width=\"200\" height=\"200\"/>
 				<br/></a>";
 		
-		#print "$imagepath<br>";
 		print "Views: $views<br>";
 		print "Votes: $votes<br>";
 		print "<br><br>";
+		print "Comments: <br><br>";
 		
-		print "<form name=\"commentsubmit\" action=\"comments.pl.cgi\"  method=\"POST\">
-				Comments: <br><br> <textarea name=\"comment\" cols=50 rows=6>Enter your comment here.</textarea> <br><br>		
+		my $comm = `./getcomment $id`;
+		
+		my @com = split(/\^\^\^\^a94a8fe5ccb19ba61c4c0873d391e987982fbbd3\^\^\^\^/, $comm);
+
+		foreach my $single(@com)
+		{
+# 			#print "$single<br>";	
+ 			my @fields = split(/\n/g, $single);
+# 			my $date = $fields[1];
+# 			print "$date<br>";
+# 			
+ 			my $junk = shift(@fields);
+ 			my $comment = join("", @fields);
+			my $date = $single;
+			$date =~ s/\sComment: .*//;
+			print "$date<br>";
+			# my $comment = $single;
+			$comment =~ s/.*Comment: //;
+			print "$comment<br><br>";
+		}		
+		
+		#print start_form(-action=>)
+		
+		print "<form name=\"commentsubmit\" action=\"comments.pl.cgi?id=$id\"  method=\"POST\">
+				<textarea name=\"comment\" cols=50 rows=6>Enter your comment here.</textarea> <br><br>		
 				<input type=\"submit\" value=\"Submit\">
 			</form>";
 		
-		print "</div>";
+		print "</div><br><br>";
 	}
 
 	print <<END_OF_HTML;

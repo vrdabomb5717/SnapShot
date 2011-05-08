@@ -21,6 +21,9 @@ my $urls = `./getURLrecent 10`;
 
 my @list = split("==========", $urls);
 
+my $ip = $ENV{'REMOTE_ADDR'};
+`./addIP $ip`;
+
 &htmlprint(@list);
 
 

@@ -13,6 +13,9 @@ my $SQL_PATH = "sql";
 
 chdir $SQL_PATH;  # change to directory with SQL 
 
+my $ip = $ENV{'REMOTE_ADDR'};
+`./addIP $ip`;
+
 my $ips = "";
 $ips = `./countIP` ;  # run get Uniq IP SQL Query
 my $url_count = "";

@@ -119,7 +119,6 @@ added to the database. Adding an already existing IP has no effect.
 Outputs "0" on success and "-1" if operation fails. 
 Arguments: IP Address to Add. 
 
-
 11) getViewCount
 Return the number of views count for given URL ID stored in the database file.
 If an error occurs, view count returned is "-1" 
