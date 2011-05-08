@@ -149,8 +149,8 @@ Log->url("$clientip sent us the following input at about $time \n ==============
 
 		# add to the DB
 		my $add_cmd = "./addurl.pl $cat $vote $url"; 
-
 		system($add_cmd); # add to the SQLite database
+		
 
 	}
 
