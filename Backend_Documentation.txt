@@ -49,7 +49,7 @@ The images will be stored in the /snaps folder and the name of the image is the 
 
 Return Format:
 ==============
-Program that return info on multiple URLs this delimeter "==========" on a new Line. See sample below:
+Program that return info on multiple URLs this delimiter "==========" on a new Line. See sample below:
 id : 6
 url : www.hahahaha.com
 category : no-category

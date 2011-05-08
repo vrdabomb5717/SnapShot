@@ -11,8 +11,12 @@ my (@pairs, $key, $value, $inputstring);
 my $q = CGI->new(); # cgi object
 print $q->header();
 
-my $url = $q->param('url'); #url
-my $category = $q->param('category'); #category
+my $url = $q->param('url1'); #url
+my $category = $q->param('category1'); #category
+
+my $url2 = $q->param('url2'); #url
+my $category2 = $q->param('category2'); #category
+
 my $ip = $ENV{'REMOTE_ADDR'};
 my $votes = 0;
 
@@ -24,6 +28,7 @@ my $server_port = 7777; # port number.
 my $input; # msg to send to server
 my $server_socket;
 my $server_response; #store servers reply
+my $server_response2; #store servers reply
 
 if(!defined($url) || !defined($category) || $url eq '' || $category eq '') # doesn't accept empty submissions
 { 
@@ -47,9 +52,23 @@ die "Cannot create a connection to the server: Connection Refused ! " unless $se
 $server_socket->send("0DF509F6DE");
 $server_socket->recv($server_response,256); # wait for server connection accept message. 
 $server_socket->send("$category,0,$url"); # send the url to the server. 
-$server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input . 
+$server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input.
+
+# do simple argument validation for 2nd URL
+if(defined($url2) && defined($category2) && $url2 ne '' && $category2 ne '')
+{
+	$server_socket->send("$category2,0,$url2"); # send the url to the server. 
+	$server_socket->recv($server_response2,256); # wait for 256 bytes chunk of data and store in $user_input.
+
+}
+
+
 $server_socket->send("quit");
 close $server_socket;  # close the connection. 
+
+
+
+
 
 &success();
 exit;
