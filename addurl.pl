@@ -4,10 +4,7 @@
 # By using the C++ addurl program. 
 # 
 # Written by Jervis Muindi
-# 5th April  2011
-
-##### Still to DO : #############
-
+# 5th May  2011
 
 
 use strict;
@@ -32,7 +29,7 @@ my $url = $ARGV[2];
 # calculate path of image caputed
 my $dir = getcwd; # get current working directory
 my $imgname = sha1_hex(lc($url)) . ".png";
-my $imgpath = "$dir/snaps/$imgname"; 
+my $imgpath = "$snaps/$imgname"; 
 
 
 # addurl C++ takes args: url, category, img path, votes

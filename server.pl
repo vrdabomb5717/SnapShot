@@ -151,7 +151,8 @@ Log->url("$clientip sent us the following input at about $time \n ==============
 		my $add_cmd = "./addurl.pl $cat $vote $url"; 
 		system($add_cmd); # add to the SQLite database
 		
-
+		chdir "sql"; # change to SQL folder
+		my $incr_cmd = "./incrementSnaps"; 
 	}
 
 	close $client_socket;
