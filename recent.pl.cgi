@@ -27,12 +27,12 @@ foreach my $line(@list)
 	$line =~ s/://g;
 	my @strings = split(/\s+/, $line);
 	
-	my $id = $strings[2];
-	my $url = $strings[4];
-	my $category = $strings[6];
-	my $imagepath = $strings[8];
-	my $views = $strings[10];
-	my $votes = $strings[12];
+	my $id = $strings[1];
+	my $url = $strings[3];
+	my $category = $strings[5];
+	my $imagepath = $strings[7];
+	my $views = $strings[9];
+	my $votes = $strings[11];
 
 	my $domain = $url;
 	
