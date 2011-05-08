@@ -24,10 +24,13 @@ my $line = $list[1];
 $line =~ s/://g;
 &site_error($comment, $id) if $line eq "id  ";
 
-
-# escape out newlines and special characters like $ * ! @ # $ % ^ & * ( ) _ + { } []\|:;"'<,>.?/
+# print "$comment";
+# escape out newlines and special characters like # %  & _ \ |:;"' , ./
 $comment =~ s/\n/\\\n/g;
-$comment =~ s/([\#\\\/\^\.\$\*\+\?\@\{\}\[\]\(\)\<\>])/\\$&/g;
+$comment =~ s/\r/\\\n/g;
+$comment =~ s/([\\\/\^\.\$\*\+\?\@\{\}\[\]\(\)\<\>])/\\$&/g;
+$comment =~ s/([#&%_=:;"|,~`])/\\$&/g;
+$comment =~ s/\'/\\\n/g;
 
 `./addcomment $id $comment`;
 
