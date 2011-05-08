@@ -29,13 +29,7 @@ my $input; # msg to send to server
 my $server_socket;
 my $server_response; #store servers reply
 my $server_response2; #store servers reply
-
-if(!defined($url) || !defined($category) || $url eq '' || $category eq '') # doesn't accept empty submissions
-{ 
-	# do simple argument validation
-	&site_error();
-	exit; # Stop running script. 
-}
+my $accept = 0;
 
 $server_socket = IO::Socket::INET->new( # create new socket and connect to specified address
 								PeerAddr => $server_name,
@@ -45,33 +39,43 @@ $server_socket = IO::Socket::INET->new( # create new socket and connect to speci
 				
 die "Cannot create a connection to the server: Connection Refused ! " unless $server_socket; # debuggin code
 
-# print "url is $url<br>";
-# print "category is $category<br>";
-
-# insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
 $server_socket->send("0DF509F6DE");
 $server_socket->recv($server_response,256); # wait for server connection accept message. 
-$server_socket->send("$category,0,$url"); # send the url to the server. 
-$server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input.
+
+# do simple argument validation
+if(defined($url) && defined($category) && $url ne '' && $category ne '') # doesn't accept empty submissions
+{ 	
+	# insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
+	$server_socket->send("$category,0,$url"); # send the url to the server. 
+	$server_socket->recv($server_response,256); # wait for 256 bytes chunk of data and store in $user_input.
+	$accept = 1;
+}
 
 # do simple argument validation for 2nd URL
 if(defined($url2) && defined($category2) && $url2 ne '' && $category2 ne '')
 {
+	# insert into DB here by sending the URL to the image-capturing screenshot on some server somewhere
 	$server_socket->send("$category2,0,$url2"); # send the url to the server. 
 	$server_socket->recv($server_response2,256); # wait for 256 bytes chunk of data and store in $user_input.
+	$accept = 1;
 
 }
-
 
 $server_socket->send("quit");
 close $server_socket;  # close the connection. 
 
+# check to see if the server accepted a URL. If it did, show the success page, and if not, show the error page.
+if($accept eq 1)
+{
+	&success();
+	exit; # Stop running script. 	
+}
+else
+{
+	&site_error();
+	exit;
+}
 
-
-
-
-&success();
-exit;
 
 sub site_error
 {

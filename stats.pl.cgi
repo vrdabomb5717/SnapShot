@@ -69,7 +69,7 @@ sub html
 							<li><a href="index.html">Home</a></li>
 							<li><a href="submit.html">Submit Website</a></li>
 							<li><a href="#">Most Popular</a></li>
-							<li><a href="#">Most Recent</a></li>
+							<li><a href="recent.pl.cgi">Most Recent</a></li>
 							<li><a href="stats.pl.cgi">Statistics</a></li>
 							<li><a href="about.html">About</a></li>
 						</ul>
@@ -102,7 +102,7 @@ sub html
 						<ul>
 							<li><a href="submit.html">Submit Website</a></li>
 							<li><a href="#">Most Popular</a></li>
-							<li><a href="#">Most Recent</a></li>
+							<li><a href="recent.pl.cgi">Most Recent</a></li>
 						</ul>
 					</nav>
 					<p class="copyright">Copyright © 2011 Varun Ravishankar and Jervis Muindi</p>
