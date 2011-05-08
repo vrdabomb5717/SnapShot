@@ -115,7 +115,7 @@ nav#header
 ul#navigation 
 {
 	margin: 0 auto;
-	width: 940px;
+	/*width: 940px;*/
 	list-style: none;
 }
 
