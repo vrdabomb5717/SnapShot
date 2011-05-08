@@ -68,7 +68,7 @@ sub html
 						<ul id="navigation">
 							<li><a href="index.html">Home</a></li>
 							<li><a href="submit.html">Submit Website</a></li>
-							<li><a href="#">Most Popular</a></li>
+							<li><a href="popular.pl.cgi">Most Popular</a></li>
 							<li><a href="recent.pl.cgi">Most Recent</a></li>
 							<li><a href="stats.pl.cgi">Statistics</a></li>
 							<li><a href="about.html">About</a></li>
@@ -101,11 +101,11 @@ sub html
 						<h1>Browse Websites</h1>
 						<ul>
 							<li><a href="submit.html">Submit Website</a></li>
-							<li><a href="#">Most Popular</a></li>
+							<li><a href="popular.pl.cgi">Most Popular</a></li>
 							<li><a href="recent.pl.cgi">Most Recent</a></li>
 						</ul>
 					</nav>
-					<p class="copyright">Copyright © 2011 Varun Ravishankar and Jervis Muindi</p>
+					<p class="copyright">Copyright &copy 2011 Varun Ravishankar and Jervis Muindi</p>
 				</footer>
 			</div>
 		
