@@ -7,6 +7,8 @@ use strict;
 use warnings;
 use CGI qw/:all/;
 
+my $q = CGI->new(); # cgi object
+print $q->header();
 
 my $ip = $ENV{'REMOTE_ADDR'}; # get IP
 

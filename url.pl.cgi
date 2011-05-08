@@ -145,13 +145,12 @@ END_OF_HTML
 		print "Comments: <br><br>";
 		
 		my $comm = `./getcomment $id`;
-		
 		my @com = split(/\^\^\^\^a94a8fe5ccb19ba61c4c0873d391e987982fbbd3\^\^\^\^/, $comm);
 
 		foreach my $single(@com)
 		{
-# 			#print "$single<br>";	
- 			my @fields = split(/\n/g, $single);
+#  			print "$single<br>";	
+ 			my @fields = split(/\n/, $single);
 # 			my $date = $fields[1];
 # 			print "$date<br>";
 # 			
@@ -162,6 +161,7 @@ END_OF_HTML
 			print "$date<br>";
 			# my $comment = $single;
 			$comment =~ s/.*Comment: //;
+			$comment =~ s/[\r|\n]/<br>/g;
 			print "$comment<br><br>";
 		}		
 		
