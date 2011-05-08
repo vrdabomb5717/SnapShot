@@ -81,22 +81,51 @@ sub html
 				</header>
 END_OF_HTML
 
+	my $bool = 0;
 
 	foreach my $line(@list)
 	{
+		print "<br><br>";
 		chomp;
 		$line =~ s/://g;
+# 		print "$line<br><br>";
 		next if ($line eq "");
 		my @strings = split(/\s+/, $line);
 		
-		my $id = $strings[2];
-		my $url = $strings[4];
-		next if ($url eq "");
-		my $category = $strings[6];
-		my $imagepath = $strings[8];
-		my $views = $strings[10];
-		my $votes = $strings[12];
-	
+# 		foreach(@strings)
+# 		{
+# 			print "thing is $strings[1]<br><br>";
+# 		}
+#		print "thing is $strings[1]<br><br>";
+		
+# 		unshift(@strings, "") if $strings[1] eq "id";
+		
+		
+		my($id, $url, $category, $imagepath, $views, $votes);
+		
+		if($bool eq 0)
+		{
+			$id = $strings[1];
+			$url = $strings[3];
+			next if ($url eq "");
+			$category = $strings[5];
+			$imagepath = $strings[7];
+			$views = $strings[9];
+			$votes = $strings[11];
+			$bool = 1;
+		}
+		else
+		{
+			$id = $strings[2];
+			$url = $strings[4];
+			next if ($url eq "");
+			$category = $strings[6];
+			$imagepath = $strings[8];
+			$views = $strings[10];
+			$votes = $strings[12];
+		}
+
+		$url =~ s/http\/\//http:\/\//g;
 		my $domain = $url;
 		
 		if($domain =~ /([^:]*:\/\/)?([^\/]*\.)*([^\/\.]+)\.[^\/]+/g)
@@ -104,7 +133,7 @@ END_OF_HTML
 			$domain = $3;
 		}
 		print "<div id=\"main\" role=\"main\">";
-		print "<a href=\"$url\">$url</a> ($category)<br><br>";
+		print "<a href=$url>$url</a> ($category)<br><br>";
 		print "<a href=$imagepath rel=\"lightbox\" title=\"$domain\">
 				<img src=\"$imagepath\" alt=\"$domain\" title=\"$domain.\" width=\"200\" height=\"200\"/>
 				<br/></a>";
@@ -113,7 +142,7 @@ END_OF_HTML
 		print "Views: $views<br>";
 		print "Votes: $votes<br>";
 		
-		print "<br><br></div>";
+		print "</div>";
 	}
 
 	print <<END_OF_HTML;
@@ -137,7 +166,6 @@ END_OF_HTML
 					<p class="copyright">Copyright © 2011 Varun Ravishankar and Jervis Muindi</p>
 				</footer>
 			</div>
-		
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
 			<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.5.2.min.js"%3E%3C/script%3E'))</script>
 			<script src="js/plugins.js"></script>
