@@ -7,8 +7,8 @@ use strict;
 use warnings;
 use CGI qw/:all/;
 
-my $q = CGI->new(); # cgi object
-print $q->header();
+#my $q = CGI->new(); # cgi object
+#print $q->header();
 
 
 # Get Statistics info :
@@ -21,40 +21,12 @@ my $urls = `./getURLrecent 10`;
 
 my @list = split("==========", $urls);
 
+&html(@list);
 
-foreach my $line(@list)
-{
-	$line =~ s/://g;
-	my @strings = split(/\s+/, $line);
-	
-	my $id = $strings[2];
-	my $url = $strings[4];
-	my $category = $strings[6];
-	my $imagepath = $strings[8];
-	my $views = $strings[10];
-	my $votes = $strings[12];
-
-	my $domain = $url;
-	
-	if($domain =~ /([^:]*:\/\/)?([^\/]*\.)*([^\/\.]+)\.[^\/]+/g)
-	{
-		$domain = $3;
-	}
-	
-	print "<a href=\"$url\">$url</a> ($category)<br><br>";
-	print "<a href=$imagepath rel=\"lightbox\" title=\"$domain\">
-				<img src=\"$imagepath\" alt=\"$domain\" title=\"$domain.\" />
-				<br/></a>";
-	
-	print "$imagepath<br>";
-	print "$views<br>";
-	print "$votes<br>";
-	
-	print "<br><br>";
-}
 
 sub html
 {
+
 	## Print the HTML 
 	print "Content-type: text/html\n\n"; # declaration for cgi script
 	print <<END_OF_HTML;
@@ -107,18 +79,44 @@ sub html
 					</nav>
 					<title> Statistics Page </title>
 				</header>
+END_OF_HTML
+
+
+	foreach my $line(@list)
+	{
+		chomp;
+		$line =~ s/://g;
+		next if ($line eq "");
+		my @strings = split(/\s+/, $line);
 		
-				<div id="main" role="main">
-				
-				<hgroup id="stats">
-				    <h1> Site Statistics </h1>
-		    		<h2> Number of Unique Visitors :  </h2>
-		   			<h2> Number of URLs Snapped    :  </h2>
-		   			<h2> Number of URLs Viewed     :  </h2>
-		   		</hgroup>
+		my $id = $strings[2];
+		my $url = $strings[4];
+		next if ($url eq "");
+		my $category = $strings[6];
+		my $imagepath = $strings[8];
+		my $views = $strings[10];
+		my $votes = $strings[12];
+	
+		my $domain = $url;
 		
-				</div>
+		if($domain =~ /([^:]*:\/\/)?([^\/]*\.)*([^\/\.]+)\.[^\/]+/g)
+		{
+			$domain = $3;
+		}
+		print "<div id=\"main\" role=\"main\">";
+		print "<a href=\"$url\">$url</a> ($category)<br><br>";
+		print "<a href=$imagepath rel=\"lightbox\" title=\"$domain\">
+				<img src=\"$imagepath\" alt=\"$domain\" title=\"$domain.\" width=\"200\" height=\"200\"/>
+				<br/></a>";
 		
+		#print "$imagepath<br>";
+		print "Views: $views<br>";
+		print "Votes: $votes<br>";
+		
+		print "<br><br></div>";
+	}
+
+	print <<END_OF_HTML;
 				<footer>
 					<nav id="navlinks">
 						<h1>Navigation</h1>
