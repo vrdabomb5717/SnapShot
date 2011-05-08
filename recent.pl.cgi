@@ -21,11 +21,12 @@ my $urls = `./getURLrecent 10`;
 
 my @list = split("==========", $urls);
 
-&html(@list);
+&htmlprint(@list);
 
 
-sub html
+sub htmlprint
 {
+	my @list = @_;
 
 	## Print the HTML 
 	print "Content-type: text/html\n\n"; # declaration for cgi script
@@ -138,9 +139,9 @@ END_OF_HTML
 				<img src=\"$imagepath\" alt=\"$domain\" title=\"$domain.\" width=\"200\" height=\"200\"/>
 				<br/></a>";
 		
-		#print "$imagepath<br>";
 		print "Views: $views<br>";
 		print "Votes: $votes<br>";
+		print "<a href=url.pl.cgi?id=$id>More Info here</a> <br>";
 		
 		print "</div>";
 	}
