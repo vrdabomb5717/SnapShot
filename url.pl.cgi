@@ -8,17 +8,19 @@ use warnings;
 use CGI qw/:all/;
 
 my $q = CGI->new(); # cgi object
-#print $q->header();
+print $q->header();
 my $urlid = $q->param('id');
 
-print "$urlid" if !defined($urlid);
-print "url is $urlid" if defined($urlid);
+#print "$urlid" if !defined($urlid);
+#print "url is $urlid" if defined($urlid);
 
 my $SQL_PATH = "sql"; 
 
 chdir $SQL_PATH;  # change to directory with SQL 
 
-my $urlinfo = `./getURLinfo 7`;
+`./increaseViewCount $urlid`;
+
+my $urlinfo = `./getURLinfo $urlid`;
 
 my @list = split("==========", $urlinfo);
 
@@ -73,7 +75,7 @@ sub htmlprint
 						<ul id="navigation">
 							<li><a href="index.html">Home</a></li>
 							<li><a href="submit.html">Submit Website</a></li>
-							<li><a href="#">Most Popular</a></li>
+							<li><a href="popular.pl.cgi">Most Popular</a></li>
 							<li><a href="recent.pl.cgi">Most Recent</a></li>
 							<li><a href="stats.pl.cgi">Statistics</a></li>
 							<li><a href="about.html">About</a></li>
@@ -91,17 +93,9 @@ END_OF_HTML
 		chomp;
 		$line =~ s/://g;
 # 		print "$line<br><br>";
+ 		&site_error if $line eq "id  ";
 		next if ($line eq "");
 		my @strings = split(/\s+/, $line);
-		
-# 		foreach(@strings)
-# 		{
-# 			print "thing is $strings[1]<br><br>";
-# 		}
-#		print "thing is $strings[1]<br><br>";
-		
-# 		unshift(@strings, "") if $strings[1] eq "id";
-		
 		
 		my($id, $url, $category, $imagepath, $views, $votes);
 		
@@ -143,6 +137,7 @@ END_OF_HTML
 		#print "$imagepath<br>";
 		print "Views: $views<br>";
 		print "Votes: $votes<br>";
+		print "<br><br>";
 		
 		print "<form name=\"commentsubmit\" action=\"comments.pl.cgi\"  method=\"POST\">
 				Comments: <br><br> <textarea name=\"comment\" cols=50 rows=6>Enter your comment here.</textarea> <br><br>		
@@ -166,11 +161,11 @@ END_OF_HTML
 						<h1>Browse Websites</h1>
 						<ul>
 							<li><a href="submit.html">Submit Website</a></li>
-							<li><a href="#">Most Popular</a></li>
+							<li><a href="popular.pl.cgi">Most Popular</a></li>
 							<li><a href="recent.pl.cgi">Most Recent</a></li>
 						</ul>
 					</nav>
-					<p class="copyright">Copyright © 2011 Varun Ravishankar and Jervis Muindi</p>
+					<p class="copyright">Copyright &copy 2011 Varun Ravishankar and Jervis Muindi</p>
 				</footer>
 			</div>
 			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
@@ -184,4 +179,45 @@ END_OF_HTML
 		</body>
 		</html>
 END_OF_HTML
+}
+
+sub site_error
+{
+	#page displayed if website that was passed in over GET doesn't exist
+
+	print "<p>Sorry, that URL doesn't exist!</p><br><br>";
+
+	print <<END_OF_HTML;
+				<footer>
+					<nav id="navlinks">
+						<h1>Navigation</h1>
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="stats.pl.cgi">Statistics</a></li>
+							<li><a href="about.html">About</a></li>
+						</ul>
+					</nav>
+					<nav id="links">
+						<h1>Browse Websites</h1>
+						<ul>
+							<li><a href="submit.html">Submit Website</a></li>
+							<li><a href="popular.pl.cgi">Most Popular</a></li>
+							<li><a href="recent.pl.cgi">Most Recent</a></li>
+						</ul>
+					</nav>
+					<p class="copyright">Copyright &copy 2011 Varun Ravishankar and Jervis Muindi</p>
+				</footer>
+			</div>
+			<script src="//ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+			<script>!window.jQuery && document.write(unescape('%3Cscript src="js/libs/jquery-1.5.2.min.js"%3E%3C/script%3E'))</script>
+			<script src="js/plugins.js"></script>
+			<script src="js/script.js"></script>
+			<!--[if lt IE 7 ]>
+			<script src="js/libs/dd_belatedpng.js"></script>
+			<script> DD_belatedPNG.fix('img, .png_bg');</script>
+			<![endif]-->
+		</body>
+		</html>
+END_OF_HTML
+	exit;
 }
