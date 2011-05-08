@@ -29,7 +29,7 @@ my $url = $ARGV[2];
 # calculate path of image caputed
 my $dir = getcwd; # get current working directory
 my $imgname = sha1_hex(lc($url)) . ".png";
-my $imgpath = "$snaps/$imgname"; 
+my $imgpath = "snaps/$imgname"; 
 
 
 # addurl C++ takes args: url, category, img path, votes
