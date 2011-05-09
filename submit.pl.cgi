@@ -114,7 +114,7 @@ sub success
 
 		print <<END_OF_PRINTING;
 		<html><head>
-		<meta http-equiv="refresh" content="3; URL=index.html">
+		<meta http-equiv="refresh" content="3; URL=index.pl.cgi">
 		<title>URL Received!</title></head>
 		<body>
 		<br>Thanks, your URL has been received!<br>
