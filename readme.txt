@@ -13,6 +13,14 @@ Issues
 We had great trouble getting a tool that worked each time, every time. Webthumb does not work reliably at all and so we decided not to use and find somethign better.Given the restricted environment of the CLIC lab (we couldn't install any programs), this was a great challenge. There were a few Linux programs that did a similar job to webthumb but they had dependencies on other software that the CLIC environment did not have. In the end, after much alot 
 of effort, we got PhantomJS running in the backend in. 
 
+External Tools
+==================
+We used PhantomJS, HTML5 Boilerplate, Modernizr, jQuery 1.5.2, and Slimbox 2.
+
+Jquery 1.5.2: http://jquery.com/
+HTML5 Boilerplate: http://html5boilerplate.com/
+Modernizr: http://www.modernizr.com/
+Slimbox 2: http://www.digitalia.be/software/slimbox2
 
 Future Dev Plans
 ================
@@ -91,7 +99,7 @@ votes : 100
 ==========
 
 
-Program Specification:
+Backend Specification (Jervis):
 =============================
 In Running the SQL c++ programs, make sure that you run them from the same directory as the programs are located in. 
 
@@ -201,4 +209,58 @@ Arguments: Number of recent URLs to return.
 21) countSnaps
 Returns the number of URL snaps takens. 
 Outputs -1 if an error occurs. 
-Takes no arguments. 
+Takes no arguments.
+
+
+Frontend Specification (Varun):
+=============================
+Each of the CGI pages should be run from the web. Data is sent via GET and POST for the CGI files.
+
+1) about.html
+A basic about page describing the goal of the project and the tools used to create it.
+
+2) comments.pl.cgi
+A Perl CGI file that submits comments to the database given a URL id.
+
+3) css/style.css
+The main stylesheet for the site. Themes the fonts, header, and footer.
+
+4) favicon.ico
+A silly little favicon for the website.
+
+5) humans.txt
+Text file that contains credits for tools used and team member info.
+
+6) index.pl.cgi
+The main page, that displays 5 random URLs for people to view and vote on.
+
+7) js
+Contains the Jquery file, Slimbox 2 files, and some basic functions for loading pictures.
+ 
+8) leastpopular.pl.cgi
+Displays 10 least popular URLs by votes.
+
+9) leastviews.pl.cgi
+Displays 10 least popular URLs by views.
+
+10) mostviews.pl.cgi
+Displays 10 most popular URLs by views.
+
+11) popular.pl.cgi
+Displays 10 most popular URLs by votes.
+
+12) random.pl.cgi
+Displays 10 random URLs for people to view and vote on.
+
+13) recent.pl.cgi
+Displays 10 recent URLs for people to view.
+
+14) robots.txt
+Lists pages to view and not view on the site.
+
+stats.pl.cgi
+submit.html
+submit.pl.cgi
+url.pl.cgi
+votedown.pl.cgi
+voteup.pl.cgi
