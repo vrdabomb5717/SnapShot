@@ -3,6 +3,7 @@ Advanced Programming Project 2
 Jervis Muindi and Varun Ravishankar
 8th May 2011
 
+
 URL:http://web3157.cs.columbia.edu/~jjm2190/snapshot/index.pl.cgi
 
 Backend Developer: Jervis
@@ -12,6 +13,17 @@ Setup
 ===========
 To setup snapshot, please untar the zipped file. Snapshot has a dependency on Wine to do the screencapture of websites and we have pre-included a portable wine installation
 for you already. After unpacking, you need to compile the C++ SQL tools that run in the backend. To do this, change to the sql directory and type 'make all'
+
+
+External Tools
+==================
+We used PhantomJS, HTML5 Boilerplate, Modernizr, jQuery 1.5.2, and Slimbox 2.
+
+Jquery 1.5.2: http://jquery.com/
+HTML5 Boilerplate: http://html5boilerplate.com/
+Modernizr: http://www.modernizr.com/
+Slimbox 2: http://www.digitalia.be/software/slimbox2
+
 
 Design choices
 ===============
@@ -101,7 +113,7 @@ votes : 100
 ==========
 
 
-Program Specification:
+Backend Specification (Jervis):
 =============================
 In Running the SQL c++ programs, make sure that you run them from the same directory as the programs are located in. 
 
@@ -214,27 +226,69 @@ Outputs -1 if an error occurs.
 Takes no arguments. 
 
 
-Front end File Listing
-==============================
-about.html - Gives details about the snapshot website. 
-comments.pl.cgi - 
-crossdomain.xml - here to prevent XSS JS attacks ???
-css - a Folder with all the css files
-favicon.ico - a fav icon
-humans.txt - A file with human responsible for this project
-index.pl.cgi - home page
-js - folder with all Java script needed
-leastpopular.pl.cgi - shows the least popular
-leastviews.pl.cgi - shows the urls with least views
-mostviews.pl.cgi - shows the urls with msot views
-popular.pl.cgi - shows the urls with most votes/views - i.e. most popular
-random.pl.cgi - shows random 10 urls
-recent.pl.cgi - shows recent urls uploaded
-robots.txt - a file for the search bot
-slimbox-2.04 - folder with JS for showing images in a fancy popup
-stats.pl.cgi - shows the site's stats
-submit.html - submits a url to website page
-submit.pl.cgi - script that's submits the url to server
-url.pl.cgi - details url infomrations
-votedown.pl.cgi - votes down a url
-voteup.pl.cgi - votes up a url
+Frontend Specification (Varun):
+=============================
+Each of the CGI pages should be run from the web. Data is sent via GET and POST for the CGI files.
+
+1) about.html
+A basic about page describing the goal of the project and the tools used to create it.
+
+2) comments.pl.cgi
+A Perl CGI file that submits comments to the database given a URL id.
+
+3) css/style.css
+The main stylesheet for the site. Themes the fonts, header, and footer.
+
+4) favicon.ico
+A silly little favicon for the website.
+
+5) humans.txt
+Text file that contains credits for tools used and team member info.
+
+6) index.pl.cgi
+The main page, that displays 5 random URLs for people to view and vote on.
+
+7) js
+Contains the Jquery file, Slimbox 2 files, and some basic functions for loading pictures.
+ 
+8) leastpopular.pl.cgi
+Displays 10 least popular URLs by votes.
+
+9) leastviews.pl.cgi
+Displays 10 least popular URLs by views.
+
+10) mostviews.pl.cgi
+Displays 10 most popular URLs by views.
+
+11) popular.pl.cgi
+Displays 10 most popular URLs by votes.
+
+12) random.pl.cgi
+Displays 10 random URLs for people to view and vote on.
+
+13) recent.pl.cgi
+Displays 10 recent URLs for people to view.
+
+14) robots.txt
+Lists pages to index on the site.
+
+15) stats.pl.cgi
+Displays stats about the site, like URLs on the site, total views, and total unique visitors.
+
+16) submit.html
+Page displayed when user attempts to add a new URL to the site.
+
+17) submit.pl.cgi
+CGI file that sends to server and asks it to generate a new image file.
+
+18) url.pl.cgi
+More info page displayed that displays info about URL and allows you to view comments.
+
+19) votedown.pl.cgi
+Votes a URL down in the database. Negative votes are allowed.
+
+20) voteup.pl.cgi
+Votes a URL up in the database.
+
+21) categories.pl.cgi
+Displayed when a user attempts to view a category. When no info is passed over GET, the category selection is displayed. Otherwise, all URLs in a category are displayed.
