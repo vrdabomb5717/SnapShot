@@ -7,12 +7,6 @@ use strict;
 use warnings;
 use CGI qw/:all/;
 
-#my $q = CGI->new(); # cgi object
-#print $q->header();
-
-
-# Get Statistics info :
-
 my $SQL_PATH = "sql"; 
 
 chdir $SQL_PATH;  # change to directory with SQL 
@@ -77,17 +71,20 @@ sub htmlprint
 							<li><a href="submit.html">Submit Website</a></li>
 							<li><a href="popular.pl.cgi">Most Popular</a></li>
 							<li><a href="recent.pl.cgi">Most Recent</a></li>
+							<li><a href="mostviews.pl.cgi">Most Viewed</a></li>
+							<li><a href="random.pl.cgi">Random</a></li>
 							<li><a href="stats.pl.cgi">Statistics</a></li>
 							<li><a href="about.html">About</a></li>
 						</ul>
 					</nav>
-					<title> Statistics Page </title>
+					<title> Most Votes </title>
 				</header>
 END_OF_HTML
 
 	my $bool = 0;
 	print "<br>";
 	
+	# iterate through URLs and split info
 	foreach my $line(@list)
 	{
 		print "<br><br>";
@@ -147,18 +144,18 @@ END_OF_HTML
 					<nav id="navlinks">
 						<h1>Navigation</h1>
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="stats.pl.cgi">Statistics</a></li>
+							<li><a href="index.pl.cgi">Home</a></li>
+							<li><a href="submit.html">Submit Site</a></li>
 							<li><a href="about.html">About</a></li>
 						</ul>
 					</nav>
 					<nav id="links">
-						<h1>Browse Websites</h1>
-						<ul>
-							<li><a href="submit.html">Submit Website</a></li>
-							<li><a href="popular.pl.cgi">Most Popular</a></li>
-							<li><a href="recent.pl.cgi">Most Recent</a></li>
-						</ul>
+					<h1>Other Links</h1>
+					<ul>
+						<li><a href="categories.pl.cgi">Categories</a></li>
+						<li><a href="leastpopular.pl.cgi">Least Votes</a></li>
+						<li><a href="leastviews.pl.cgi">Least Views</a></li>
+					</ul>
 					</nav>
 					<p class="copyright">Copyright &copy 2011 Varun Ravishankar and Jervis Muindi</p>
 				</footer>
