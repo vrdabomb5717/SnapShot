@@ -256,11 +256,25 @@ Displays 10 random URLs for people to view and vote on.
 Displays 10 recent URLs for people to view.
 
 14) robots.txt
-Lists pages to view and not view on the site.
+Lists pages to index on the site.
 
-stats.pl.cgi
-submit.html
-submit.pl.cgi
-url.pl.cgi
-votedown.pl.cgi
-voteup.pl.cgi
+15) stats.pl.cgi
+Displays stats about the site, like URLs on the site, total views, and total unique visitors.
+
+16) submit.html
+Page displayed when user attempts to add a new URL to the site.
+
+17) submit.pl.cgi
+CGI file that sends to server and asks it to generate a new image file.
+
+18) url.pl.cgi
+More info page displayed that displays info about URL and allows you to view comments.
+
+19) votedown.pl.cgi
+Votes a URL down in the database. Negative votes are allowed.
+
+20) voteup.pl.cgi
+Votes a URL up in the database.
+
+21) categories.pl.cgi
+Displayed when a user attempts to view a category. When no info is passed over GET, the category selection is displayed. Otherwise, all URLs in a category are displayed.
