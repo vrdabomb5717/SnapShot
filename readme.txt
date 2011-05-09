@@ -8,20 +8,25 @@ Setup
 To setup snapshot, please untar the zipped file. Snapshot has a dependency on Wine to do the screencapture of websites and we have pre-included a portable wine installation
 for you already. After unpacking, you need to compile the C++ SQL tools that run in the backend. To do this, change to the sql directory and type 'make all'
 
+Design choices
+===============
+* We decided not to implement user accounts to make the site publicly accessible to all to increase the utility of the site.
+* In voting, we allow negative number of votes to mean that that mnay more people don't like the site than do. 
+
 Issues
 ==================
 We had great trouble getting a tool that worked each time, every time. Webthumb does not work reliably at all and so we decided not to use and find somethign better.Given the restricted environment of the CLIC lab (we couldn't install any programs), this was a great challenge. There were a few Linux programs that did a similar job to webthumb but they had dependencies on other software that the CLIC environment did not have. In the end, after much alot 
 of effort, we got PhantomJS running in the backend in. 
 
-
 Future Dev Plans
 ================
 Future plans for the site is to work on improving the usability and friendliness of the UI. We have a very solid and scalable backend (it's only limited by the resources on which the server is running on)
-which gives us a good platform to build on great interface to the site. 
+which gives us a good platform to build on great interface to the site. One good idea, would be to have a gallery to provide and nice and beautiful showcase of all the highquality images that we took. Something else that would be
+good would be to implement a sort of filter for content on the site. Another thing to do, is provide an interface to download the plain images that we have. 
 
 
-Backend Documentation:
-============================
+Detailed Backend Documentation:
+================================
 At the location of each of these programs (under the sql folder) should be a "testdb.txt" file. This file should contain a path to the SQLite Database. 
 A sample working testdb.txt file has been included. 
 
