@@ -77,7 +77,7 @@ sub htmlprint
 				<header>
 					<nav id="header">
 						<ul id="navigation">
-							<li><a href="index.html">Home</a></li>
+							<li><a href="index.pl.cgi">Home</a></li>
 							<li><a href="submit.html">Submit Website</a></li>
 							<li><a href="popular.pl.cgi">Most Popular</a></li>
 							<li><a href="recent.pl.cgi">Most Recent</a></li>
