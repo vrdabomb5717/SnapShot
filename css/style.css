@@ -159,10 +159,12 @@ ul#navigation li.selected a
 
 hgroup#title
 {
-	background: #222;
+	/* background: #222; */
 /* 	margin-top: 66px;   */
+/*
     padding: 44px;    
     background-size: 100%; 
+*/
 }
 
 

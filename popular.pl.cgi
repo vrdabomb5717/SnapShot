@@ -1,5 +1,5 @@
 #!/usr/bin/perl --
-# A Basic Sample Statistics Page for SnapShot
+# Top 10 Most Votes
 # Written by Varun Ravishankar and Jervis Muindi
 # May 6th , 2011
 
@@ -67,7 +67,7 @@ sub htmlprint
 				<header>
 					<nav id="header">
 						<ul id="navigation">
-							<li><a href="index.html">Home</a></li>
+							<li><a href="index.pl.cgi">Home</a></li>
 							<li><a href="submit.html">Submit Website</a></li>
 							<li><a href="popular.pl.cgi">Most Popular</a></li>
 							<li><a href="recent.pl.cgi">Most Recent</a></li>
@@ -126,7 +126,7 @@ END_OF_HTML
 			$domain = $3;
 		}
 		print "<div id=\"main\" role=\"main\">";
-		print "<a href=$url>$url</a> ($category)<br><br>";
+		print "<a href=$url>$url</a> (<a href=categories.pl.cgi?category=$category>$category</a>)<br><br>";
 		print "<a href=$imagepath rel=\"lightbox\" title=\"$domain\">
 				<img src=\"$imagepath\" alt=\"$domain\" title=\"$domain.\" width=\"200\" height=\"200\"/>
 				<br/></a>";
