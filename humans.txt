@@ -3,19 +3,21 @@
 
 
 /* TEAM */
-  Columbia Student: Jervis Muindi
-  Columbia Student: Varun Ravinshakar
-  Site: 
-  Twitter: 
-  Location: New York, New York 
+  Front-End: Varun Ravishankar
+  Site: http://columbia.edu/~vr2263/
+  Twitter: http://twitter.com/vrdabomb5717
+  Location: New York, NY USA
+  
+  Back-End: Jervis Muindi
+  Location: New York, NY USA
 
 /* THANKS */
-  Names (& URL): PhantomJS
+  Names (& URL): The jQuery team, Slimbox 2(http://www.digitalia.be/software/slimbox2), and Mads Kjaer from Nettuts+ (http://net.tutsplus.com/tutorials/html-css-techniques/html-5-and-css-3-the-techniques-youll-soon-be-using/)
 
 /* SITE */
   Standards: HTML5, CSS3
-  Components: Modernizr, jQuery
-  Software: Apache, PhantomJS, Perl
+  Components: Modernizr, jQuery, Slimbox 2
+  Software:
   
 
                                     
