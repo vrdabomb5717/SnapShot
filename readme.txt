@@ -3,6 +3,10 @@ Advanced Programming Project 2
 Jervis Muindi and Varun Ravishankar
 8th May 2011
 
+
+Backend Developer: Jervis
+Front end Developer: Varun
+
 Setup
 ===========
 To setup snapshot, please untar the zipped file. Snapshot has a dependency on Wine to do the screencapture of websites and we have pre-included a portable wine installation
@@ -207,3 +211,29 @@ Arguments: Number of recent URLs to return.
 Returns the number of URL snaps takens. 
 Outputs -1 if an error occurs. 
 Takes no arguments. 
+
+
+Front end File Listing
+==============================
+about.html - Gives details about the snapshot website. 
+comments.pl.cgi - 
+crossdomain.xml - here to prevent XSS JS attacks ???
+css - a Folder with all the css files
+favicon.ico - a fav icon
+humans.txt - A file with human responsible for this project
+index.pl.cgi - home page
+js - folder with all Java script needed
+leastpopular.pl.cgi - shows the least popular
+leastviews.pl.cgi - shows the urls with least views
+mostviews.pl.cgi - shows the urls with msot views
+popular.pl.cgi - shows the urls with most votes/views - i.e. most popular
+random.pl.cgi - shows random 10 urls
+recent.pl.cgi - shows recent urls uploaded
+robots.txt - a file for the search bot
+slimbox-2.04 - folder with JS for showing images in a fancy popup
+stats.pl.cgi - shows the site's stats
+submit.html - submits a url to website page
+submit.pl.cgi - script that's submits the url to server
+url.pl.cgi - details url infomrations
+votedown.pl.cgi - votes down a url
+voteup.pl.cgi - votes up a url

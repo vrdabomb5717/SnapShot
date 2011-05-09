@@ -9,7 +9,7 @@ use IO::Socket::INET;
 my (@pairs, $key, $value, $inputstring);
 
 my $q = CGI->new(); # cgi object
-print $q->header();
+
 
 my $url = $q->param('url1'); #url
 my $category = $q->param('category1'); #category
@@ -41,7 +41,11 @@ $server_socket = IO::Socket::INET->new( # create new socket and connect to speci
 								Proto => 'tcp'
 								);
 				
-die "Cannot create a connection to the server: Connection Refused ! " unless $server_socket; # debuggin code
+die &server_unavailable()  unless $server_socket; # debuggin code
+#die "Cannot create a connection to the server: Connection Refused ! " unless $server_socket; # debuggin code
+
+
+print $q->header();
 
 $server_socket->send("0DF509F6DE");
 $server_socket->recv($server_response,256); # wait for server connection accept message. 
@@ -78,6 +82,12 @@ else
 {
 	&site_error();
 	exit;
+}
+
+
+sub server_unavailable
+{
+	print $q->redirect('404.html');  # redirect to 404 page. 
 }
 
 
