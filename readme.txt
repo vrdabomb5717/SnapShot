@@ -292,3 +292,7 @@ Votes a URL up in the database.
 
 21) categories.pl.cgi
 Displayed when a user attempts to view a category. When no info is passed over GET, the category selection is displayed. Otherwise, all URLs in a category are displayed.
+
+License
+===================
+All source code is licensed under the Simplified BSD license (2-clause BSD). All documentation is licensed under the FreeBSD Documentation License.
